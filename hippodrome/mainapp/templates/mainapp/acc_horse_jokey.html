@@ -1,0 +1,36 @@
+{% extends 'hippodrome/account.html' %}
+
+{% block additional %}
+
+    <div class="table-wrap table-account-res">
+        <div class="table-title">
+            <h2>{{ title_table }}</h2>
+        </div>
+        <table>
+            <tbody>
+                <tr>
+                    {% for d in desc_table %}
+                        <td>{{ d }}</td>
+                    {% endfor %}
+                    <td></td>
+                </tr>
+                {% for e in elem_table %}
+                <tr>
+                    {% for f in e %}
+                        {% if f.type == 'text' %}
+                            <td>{{ f.value }}</td>
+                        {% else %}
+                            <td><a href="{{ f.link }}">{{ f.value }}</a></td>
+                        {% endif %}
+                    {% endfor %}
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+
+{% endblock %}
+
+
+

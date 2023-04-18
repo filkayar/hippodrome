@@ -1,0 +1,228 @@
+{% extends 'hippodrome/base.html' %}
+
+
+{% block content_title %}
+    
+    {% if new_record %}
+    <h2>Новый заезд</h2>
+    {% else %} 
+    <h2>{{ title_race }}</h2>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block viborky %}
+
+    <div id="table_horses" class="modal-block viborka">
+        <div class="v-head">Список лошадей</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for h in dict_horses %}
+                    <tr>
+                        <td id="id-0-{{ h.pk }}" class="el-v">{{ h.name }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+    <div id="table_jokey" class="modal-block viborka">
+        <div class="v-head">Список жокеев</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for j in dict_jokey %}
+                    <tr>
+                        <td id="id-1-{{ j.pk }}" class="el-v">{{ j.fio }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+    <div id="table_cities" class="modal-block viborka">
+        <div class="v-head">Список городов</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for c in dict_cities %}
+                    <tr>
+                        <td id="id-2-{{ c.pk }}" url="{{ c.photo }}" class="el-v">{{ c.name }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+    <div id="table_hippodrome" class="modal-block viborka">
+        <div class="v-head">Список ипподромов</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for i in dict_hippodrome %}
+                    <tr>
+                        <td id="id-3-{{ i.pk }}" city_url="{{ i.photo }}" class="el-v">{{ i.name }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    <form action="{{ action }}" type="POST" class="race-block">
+        <div class="race-desc">
+            <img id="race-photo" src="{{ race.city.photo }}" alt="">
+            <div class="city-name">
+                <p>Город</p>
+                <div class="link r-head-input">
+                    <i class="fa-solid fa-link"></i>
+                    <input id="city.name" name="city.name" type="number" value="{{ city.pk }}">                                        
+                    <div class="link-input" for="table_cities">{{ city.name }}</div>
+                </div>
+                <p>Ипподром</p>
+                <div class="link r-head-input">
+                    <i class="fa-solid fa-link"></i>
+                    <input id="hippodrome.name" name="hippodrome.name" type="number" value="{{ hippodrome.pk }}">                                        
+                    <div class="link-input" for="table_hippodrome">{{ hippodrome.name }}</div>
+                </div>
+            </div>
+            <div class="table-wrap no-head no-color race-fields">
+                <div class="table-title">
+                    <button type="submit" class="race-button">Сохранить запись</button>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Заголовок</td>
+                            <td><input name="title" type="text" class="input-text" value="{{ title }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Текущий статус</td>
+                            <td><input name="status" type="text" class="input-text" value="{{ status }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Дата:</td>
+                            <td><input name="date" type="date" class="input-text" value="{{ date }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Время начала:</td>
+                            <td><input name="time_begin" type="time" class="input-text" value="{{ time_begin }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Время окончания:</td>
+                            <td><input name="time_end" type="time" class="input-text" value="{{ time_end }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Дистанция:</td>
+                            <td><input name="distantion" type="number" class="input-text" value="{{ distantion }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Призовой фонд:</td>
+                            <td><input name="summa" type="number" class="input-text" value="{{ summa }}"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Организатор</td>
+                            <td><input name="org" type="text" class="input-text" value="{{ org }}"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+        <div class="race-couples">               
+            <div class="input-submit add-couple">Добавить участника</div>
+            <div class="table-wrap ">
+                <div class="table-title">
+                    <h2>Участники заезда</h2>
+                </div>
+                <table>
+                    <tbody id="list-couples">
+                        <tr>
+                            <td>Лошадь</td>
+                            <td>Наездник</td>
+                            <td>Результат</td>
+                            <td>Время участника</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% for c in range(len(couples)) %}
+                        <tr>
+                            <td>
+                                <div class="link">
+                                    <i class="fa-solid fa-link"></i>
+                                    <input id="couple-{{ c }}-0" name="couple-{{ c }}-0" type="number" value="{{ couples[c].horse.pk }}">                                        
+                                    <div class="link-input" for="table_horses">{{ couples[c].horse.name }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="link">
+                                    <i class="fa-solid fa-link"></i>
+                                    <input id="couple-{{ c }}-1" name="couple-{{ c }}-1" type="number" value="{{ couples[c].jokey.pk }}">                                        
+                                    <div class="link-input" for="table_jokey">{{ couples[c].jokey.fio }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <input name="couple-{{ c }}-2" type="number" class="input-text" value="{{ couples[c].result }}">
+                            </td>
+                            <td>
+                                <input name="couple-{{ c }}-3" type="time" class="input-text" value="{{ couples[c].time }}">
+                            </td>
+                            <td>
+                                <i class="fa-solid fa-xmark"></i>
+                            </td>
+                            <td></td>
+                        </tr>
+                        {% endfor %} 
+                    </tbody>
+                </table> 
+            </div>    
+        </div>
+    </form>
+
+{% endblock %}

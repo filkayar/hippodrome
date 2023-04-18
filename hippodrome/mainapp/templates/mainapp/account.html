@@ -1,0 +1,47 @@
+{% extends 'hippodrome/base.html' %}
+
+
+{% block content_title %}
+    
+    <h2>{{ account_name }}</h2>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="account-wrap">
+    <div class="account-common">
+        <div class="account-photo-wrap">
+            <img src="{{ photo }}" alt="" class="account-photo">
+            {% if is_rules_edit %}
+            <form action="{{ edit_action }}" method="get">
+                <button class="input-submit">Редактировать профиль</button>
+            </form>
+            {% endif %}                  
+        </div>
+        <div class="account-mess">
+            <div class="table-wrap no-head no-color acc-info" >
+                <div class="table-title">
+                    <h2>Справочная информация</h2>
+                </div>
+                <table>
+                    <tbody>
+                        {% for f in record %}
+                        <tr>
+                            <td>{{ f.desc }}:</td>
+                            <td>{{ f.value }}</td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>
+            
+            {% block additional %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

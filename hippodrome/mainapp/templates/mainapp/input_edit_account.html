@@ -1,0 +1,83 @@
+{% extends 'hippodrome/base.html' %}
+
+
+{% block content_title %}
+    
+    <h2>Новая запись - {{ table }}</h2>
+
+{% endblock %}
+
+{% block viborky %}
+
+    {% for v in list_v %}
+    <div id="{{ v.name }}" class="modal-block viborka">
+        <div class="v-head">{{ v.title }}</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for r in v.records %}
+                    <tr>
+                        <td id="id-{{ v.id }}-{{ r.pk }}" class="el-v">{{ r.value }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="account-wrap">
+        <form action="{{ action }}" method="get" class="account-common">
+            <div class="account-photo-wrap">
+                <div class="input-file-wrap">
+                    <label for="img_up">Загрузите сюда фотографию</label>
+                    <input type="file" id="img_up" name="img_up" accept=".jpg, .jpeg, .png" />
+                    <div id="photo-wrap">
+                        <img src="{{ photo }}" alt="" >
+                    </div>
+                </div>           
+                <button class="input-submit">Сохранить профиль</button>                   
+            </div>
+            <div class="account-mess">
+                <div class="table-wrap no-head" >
+                    <div class="table-title">
+                        <h2>Справочная информация</h2>
+                    </div>
+                    <table>
+                        <tbody height="px">
+                            {% for f in fields %}
+                            <tr>
+                                <td>{{ f.desc }}:</td>
+                                {% if f.type == 'text' %}
+                                    <td><input name="{{ f.pk }}" type="{{ f.type }}" class="input-text" value="{{ f.value }}"></td>
+                                {% else %}
+                                    <td>
+                                        <div class="link">
+                                            <i class="fa-solid fa-link"></i>
+                                            <input id="{{ f.link.pk }}" name="{{ f.link.pk }}" type="number" value="{{ f.link.pk }}">                                        
+                                            <div class="link-input" for="{{ f.viborka }}">{{ f.link.value }}</div>
+                                        </div>                                    
+                                    </td>
+                                {% endif %}
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </form>                           
+    </div>
+
+{% endblock %}

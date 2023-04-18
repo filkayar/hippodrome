@@ -1,0 +1,81 @@
+{% extends 'hippodrome/base.html' %}
+
+
+{% block content_title %}
+    
+    <h2>Список печати</h2>
+
+{% endblock %}
+
+
+{% block content %}
+
+<form action="/report/0" method="get" class="form-report">
+    <h2>Рейтинг лошадей за период</h2>
+    <div class="fields-wrap">
+        <p>c</p>
+        <input type="date" name="dn" class="input-text">
+        <p>по</p>
+        <input type="date" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+<form action="/report/1" method="get" class="form-report">
+    <h2>Рейтинг жокеев за период</h2>
+    <div class="fields-wrap">
+        <p>c</p>
+        <input type="date" name="dn" class="input-text">
+        <p>по</p>
+        <input type="date" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+<form action="/report/2" method="get" class="form-report">
+    <h2>Статистика жокея за период</h2>
+    <div class="fields-wrap">
+        <p>ID-жокея</p>
+        <input type="number" name="dn" class="input-text">
+        <p>c</p>
+        <input type="date" name="dn" class="input-text">
+        <p>по</p>
+        <input type="date" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+<form action="/report/3" method="get" class="form-report">
+    <h2>Статистика лошади за период</h2>
+    <div class="fields-wrap">
+        <p>ID-лошади</p>
+        <input type="number" name="dn" class="input-text">
+        <p>c</p>
+        <input type="date" name="dn" class="input-text">
+        <p>по</p>
+        <input type="date" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+<form action="/report/4" method="get" class="form-report">
+    <h2>Список заездов с результатами за период</h2>
+    <div class="fields-wrap">
+        <p>c</p>
+        <input type="date" name="dn" class="input-text">
+        <p>по</p>
+        <input type="date" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+<form action="/report/5" method="get" class="form-report">
+    <h2>Распечатка заезда</h2>
+    <div class="fields-wrap">
+        <p>Номер заезда</p>
+        <input type="number" name="dn" class="input-text">
+        <button type="submit" class="input-submit">Печать</button>
+    </div>
+</form>
+
+{% endblock %}

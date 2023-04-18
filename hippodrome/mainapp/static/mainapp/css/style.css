@@ -1,0 +1,877 @@
+/* Константы */
+
+    :root {
+        --color-text:#666666;
+        --color-text-h:#333333;
+        --color-header:#888888;
+        --color-btn-hv:#adadad;
+        --color-btn-act:#fafafa;
+        --color-glace:rgba(0,0,0,0);
+        --color-sidebar: #ffffff;
+        --color-side-border:#f5f5f5;
+        --color-side-hover:#fcfcfc;
+        --color-black-glace:rgba(0,0,0,0.7);
+        --color-content-title:#d3d3d3;
+        --color-table-title:#525252;
+        --color-table-head:#c5c5c5;
+        --color-table-row-odd:#f0f0f0;
+        --color-table-row-even:#f7f7f7;
+        --color-message:#f7f7f7;
+        --color-photo-border:#aaaaaa;
+        
+        --color-main:#ffffff;
+        --color-link:#0099e5;
+        --color-text2:#666666;
+        
+        --color-message-border:#e5e5e5;
+        --color-alert:#ff4e4e;
+        --color-border:#e0e0e0;
+    }
+
+    
+
+
+/* Сброс умолчаний */
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+        display: block;
+    }
+    body {
+        line-height: 1;
+    }
+    ol, ul {
+        list-style: none;
+    }
+    blockquote, q {
+        quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    
+    
+
+
+
+
+/* Начальные установки */
+    * {
+        box-sizing: border-box;
+    }
+    body::-webkit-scrollbar {
+        width:0;
+    }
+    input[type=file] {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        display: block;
+        width: 0;
+        height: 0;
+    }
+    :not(i) {
+        font-family: "Poppins",Helvetica,sans-serif !important;
+        color:var(--color-text);
+    }
+    body:has(#page-overlay.active) {
+        overflow: hidden;
+    }
+    #page-overlay {
+        display: none;
+        position: fixed;
+        z-index: 990;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        opacity: 1;
+        visibility: visible;
+        background-color: var(--color-black-glace);
+    }
+    #page-overlay.active {
+        display: block;
+    }
+
+
+
+
+/* АТОМНЫЕ ЭЛЕМЕНТЫ */
+
+/* поле ввода */
+    .form-group {
+        position: relative;
+    }
+    .input-border {
+        content: "";
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        bottom: 0;
+        height: 2px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+    input.input-text:focus+.input-border {
+        left: 0;
+        right: 0;
+    }
+    input.input-text+.input-border {
+        background: var(--color-link);
+    }
+    input.input-text:invalid+.input-border {
+        background: var(--color-alert);
+    }
+    input.input-text,input.input-text:focus {
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+    input.input-text,input.input-text:focus {
+        position: relative;
+        border: 1px solid #dfdfdf;
+        border-radius: 0;
+        display: block;
+        font-size: 1em;
+        padding: 10px 25px 10px 12px;
+        width: 100%;
+        background: 0 0;
+        text-align: left;
+        color: inherit;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        outline: none;
+    }
+    .form-group {
+        position: relative;
+    }
+
+
+/* кнопка */
+    .input-submit {
+        border-radius:0;
+        border:2px solid var(--color-link);
+        background-color: var(--color-main);
+        padding:7px 15px;
+        color:var(--color-text);
+        transition:all 0.3s ease-in-out;
+        text-align: center;
+    }
+    .input-submit:hover {
+        background-color: var(--color-link);
+        color:var(--color-main);
+    }
+
+
+/* изображения */
+    img {
+        object-fit: cover;
+        width:100%;
+        border:3px solid var(--color-photo-border);
+        vertical-align: bottom;
+    }
+
+/* фото */
+    .input-file-wrap {
+        position: relative;
+    }
+    .input-file-wrap label {
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        z-index:3;
+        background-color: var(--color-black-glace);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:24px;
+        color:var(--color-main);
+        padding:40px;
+        text-align: center;
+    }
+
+
+
+    /* модальное окно */
+    .modal-block {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width:100%;
+        max-height:100%;
+        background-color: var(--color-main);
+    }
+
+
+
+/* линковое поле */
+    .link {
+        display: flex;
+        position: relative;
+    }
+    .link-input {
+        position: relative;
+        width:100%;
+        font-size: 16px;
+        min-height:36px;
+        border:1px solid var(--color-border);
+        padding:10px;
+        padding-left:40px;
+        z-index: 2;
+    }
+    .link input {
+        display: none;
+    }
+    .link i {
+        margin:10px;
+        position: absolute;
+        z-index: 1;
+    }
+
+
+
+/* выборка для линкового поля */
+    .modal-block.viborka {
+        height:600px;
+        width:700px;
+        z-index: 991;
+    }
+    .modal-block.viborka.active {
+        display: block;
+    }
+    .viborka tbody {
+        height:492px;
+        max-height: 100%;
+    }
+    .v-head {
+        background-color:var(--color-table-title);
+        color:var(--color-main); 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:24px;
+    }
+    .v-search {
+        background-color:var(--color-table-head);
+        position: relative;
+    }
+    .v-head, .v-search {
+        height:50px;
+    }
+    .v-search input.input-text {
+        border:0;
+        position: static;
+        font-size:21px;
+        padding:13px 13px 13px 50px;
+    }
+    .v-search i {
+        position: absolute;
+        top:17px;
+        left:17px;
+    }
+
+
+
+/* ОСНОВНЫЕ ЭЛЕМЕНТЫ */
+
+
+
+
+/* шапка */
+    #header {
+        z-index: 980;
+        height:70px;
+        position: fixed;
+        display: flex;
+        top:0;
+        width:100%;
+        background-color: var(--color-header);
+    }
+    #header * {
+        color:var(--color-text-h);
+    }
+    .h-mini {
+        width:70px;
+        height:70px;
+        position: relative;
+    }
+    #h-center {
+        width:calc(100% - 140px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #header .fa-solid {
+        font-size: 40px;
+        width:40px;
+        height:40px;
+        margin:auto;
+    }
+    #header .h-button {
+        height:100%;
+        width:100%;
+        position: relative;
+        border:0;
+        background-color:var(--color-glace);
+    }
+    #header a.h-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        height:100%;
+        width:100%;
+        position: relative;
+        border:0;
+        background-color:var(--color-glace);
+    }
+    #header .h-button:hover {
+        background-color: var(--color-btn-hv);
+    }
+    #header .h-button:active {
+        background-color:var(--color-btn-act);
+    }
+
+    a#btn-main {
+        margin:auto 0;
+        display: flex;
+        border:0;
+        font-size: 40px;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    .main-title {  
+        display: block;
+        margin:0 -40px;
+        padding:0 60px;
+        height:100%;
+    }
+    .head-horse {
+        display: block;
+        width:40px;
+        height:100%;
+    }
+
+
+/* контент-блок */
+
+    #content {
+        margin-top:70px;
+    }
+    #content-title {
+        background-color: var(--color-content-title);
+        height:50px;
+        overflow: hidden;
+        position: relative;
+    }
+    #content-title * {
+        font-size:30px;
+        display: inline-block;
+        padding: 10px;
+    }
+    #content-title h2 {
+        padding-left:40px;
+    }
+    #content-title a {
+        /* padding:8px; */
+        text-decoration: none;
+        position: absolute;
+        right:0;
+        background-color: var(--color-glace);
+        /* border:2px solid var(--color-text); */
+        color:var(--color-text);
+        transition:all 0.4s ease;
+    }
+    #content-title a:hover {
+        background-color: var(--color-text);
+        color:var(--color-content-title);
+    }
+
+
+/* сайдбар */
+
+    #sidebar {
+        margin-left:-450px;
+        background-color: var(--color-sidebar);
+        position: fixed;
+        z-index: 1000;
+        top:0;
+        left:0;
+        width:450px;
+        height:100%;
+        transition: all 0.3s ease-in-out;
+    }
+    #sidebar.active {
+        margin:0;
+    }
+
+    #sidebar ul {
+        list-style: none;
+    }
+    #sidebar ul li {
+        display: block;
+        position: relative;
+        text-align: center;
+        border-bottom: 1px solid var(--color-side-border);
+    }
+    #sidebar ul li:first-child {
+        border-top: 1px solid var(--color-side-border);
+    }
+    #sidebar ul li a {
+        display: block;
+        padding: 20px;
+        text-decoration: none;
+    }
+    #sidebar ul li:has(a:hover), #sidebar ul li.active {
+        background-color: var(--color-side-hover);
+    }
+    #sidebar ul li a:after {
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        content: '';
+        width: 2px;
+        height: 100%;
+        margin: 0 auto;
+        background-color: var(--color-link);
+        opacity: 0;
+        -webkit-transition: all 0.18s ease-out;
+        -moz-transition: all 0.18s ease-out;
+        transition: all 0.18s ease-out
+    }
+    #sidebar ul li a:hover:after, #sidebar ul li.active a:after {
+        opacity: 1;
+    }
+
+
+
+/* авторизация */
+
+    #auth {
+        width:500px;
+    }
+    #auth.active {
+        display: block;
+    }
+    #auth h2 {
+        text-align: center;
+        font-size: 40px;
+        margin:20px 0;
+        color:var(--color-text-h);
+    }
+    #auth .form-group {
+        margin:0 20px 20px;
+    }
+    #auth-subm {
+        margin:0 20px 20px;
+        width:calc(100% - 40px);
+    }
+
+
+
+/* таблицы */
+    .table-wrap {
+        border:3px solid var(--color-border);
+        border-top:3px solid var(--color-border);
+        border-right:1px solid var(--color-border);
+        position: relative;
+        overflow: hidden;
+    }
+    .table-wrap.no-head {
+        border-top:4px solid var(--color-border);
+    }
+    table {
+        display: table;
+        border-collapse: separate;
+        position: relative;
+        width:100%;
+    }
+    td {
+        padding:15px;
+        border:1px solid var(--color-border);
+        border-top:0;
+    }
+    td:last-child {
+        width: 0.001%;
+        padding:0;
+    }
+    tbody {
+        display: block;
+        position: relative;
+        overflow: auto;
+    }
+    tbody.full-table {
+        height:calc(100vh - 127px);
+    }
+    .table-wrap:not(.no-head) tbody tr:first-child {
+        position: sticky;
+        top:0;
+        background-color: var(--color-table-head);
+    }
+    .table-wrap:not(.no-head):not(.no-color) tbody tr:not(:first-child):nth-child(odd), .no-head:not(.no-color) tbody tr:nth-child(odd) {
+        background-color: var(--color-table-row-odd);
+    }
+    .table-wrap:not(.no-head):not(.no-color) tbody tr:not(:first-child):nth-child(even), .no-head:not(.no-color) tbody tr:nth-child(even) {
+        background-color: var(--color-table-row-even);
+    }
+    .table-wrap:not(.no-head):not(.no-color) tbody tr:not(:first-child):has(td:hover), .no-head:not(.no-color) tbody tr:has(td:hover) {
+            background-color: var(--color-main);
+    }
+    .table-title {
+        background-color: var(--color-table-title);
+        overflow: hidden;
+        padding:7px 20px;
+        border-bottom:1px solid var(--color-border);
+        border-right:2px solid var(--color-border);
+    }
+    .table-title:has(h2:empty), .table-title:not(:has(h2)) {
+        padding:0;
+    }
+    .table-title h2 {
+        font-size: 24px;
+        color:var(--color-main);
+    }
+
+
+
+/* отчетная форма */
+    form.form-report .fields-wrap {
+        display: flex;
+        justify-content: flex-end;
+        /* overflow: auto; */
+    }
+    form.form-report {
+        display: flex;
+        border:2px solid var(--color-border);
+        padding:7px 20px;
+        margin:15px;
+    }
+    form.form-report input {
+        width:min-content;
+        margin-left:20px;
+        padding: 10px;
+        max-width: 150px;
+    }
+    form.form-report input:focus {
+        width:min-content;
+        margin-left:20px;
+        padding: 10px;
+    }
+    form.form-report h2 {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin:auto;
+        font-size:28px;
+    }
+    form.form-report p {
+        display: block;
+        text-align: left;
+        margin:auto;
+        font-size:22px;
+        margin-left:20px;
+        white-space: nowrap;
+    }
+    form.form-report .input-submit {
+        margin-left: 20px;
+    }
+
+
+
+/* основная информация по аккаунту */
+    .account-common {
+        display: flex;
+        flex-direction: row-reverse;
+        position: relative;
+        background-color: var(--color-message);
+        min-height:calc(100vh - 120px);
+    }
+    .account-mess {
+        padding:40px;
+        margin:0 40px;
+        background-color: var(--color-main);
+        max-width: 70vw;
+        width:calc(100vw - 400px);
+    }
+    .acc-info {
+        margin-bottom:40px;
+    }
+    .account-photo-wrap {
+        padding: 40px;
+        min-width:400px;
+        width:30vw;
+        background-color: var(--color-main);
+    }
+    .account-photo-wrap button {
+        margin-top:40px;
+    }
+    .account-photo-wrap button {
+        width:100%;
+        font-size:20px;
+    }
+    @media screen and (max-width:1200px) {
+        .account-common {
+            display: block;
+        }
+        .account-mess, .account-photo-wrap {
+            min-width: none;
+            max-width: none;
+            margin:0 40px;
+            width:calc(100% - 80px);
+        }
+    }
+    .account-photo-wrap img {
+        height:70vh;
+    }
+    .table-account-res {
+        margin-top:40px;
+    }
+    .table-account-res tbody {
+        height:700px;
+    }
+
+
+
+/* лошади собственника */
+    .no-display {
+        display: none;
+    }
+    tr:has(#h4) td.no-display {
+        background-color: orange;
+    }
+    .sobs-block {
+        display: flex;
+        flex-direction: row-reverse;
+        position: relative;
+        height:900px;
+    }
+    .sobs-left {
+        width:calc(100% - 390px);
+        margin-right:40px;
+        position:relative;
+        height:900px;
+    }
+    .races-block {
+        width:100%;
+    }
+    .races-block tbody {
+        height:565px;
+    }
+    .horses-block {
+        width:350px;
+        height:900px;
+        position: relative;
+    }
+    .list-horses, .desc-horse-table {
+        margin-bottom:40px;
+    }
+    .list-horses tbody, .desc-horse-table tbody {
+        height:204px;
+    }
+    .desc-horse {
+        height:610px;
+    }
+    #h-photo {
+        height:610px;
+    }
+    #h-photo[src=""] {
+        display: none;
+    }
+    .horses-block:has(#h-photo[src=""]) .desc-horse-table {
+        display: none;
+    }
+    .sobs-block:has(#h-photo[src=""]) .sobs-left {
+        width:100%;
+        margin-right:0;
+    }
+    .horses-block:has(#h-photo[src=""]) {
+        width:0;
+    }
+    @media screen and (max-width:1600px) {
+        .sobs-block {
+            display: block;
+        }
+        .sobs-left {
+            margin-top:40px;
+            margin-right:0;
+        }
+        .sobs-left, .horses-block {
+            width:100%;
+        }
+        .sobs-block, .horses-block, .desc-horse {
+            height:inherit;
+        }
+        #h-photo {
+            height:inherit;
+        }
+    }
+
+
+
+
+/* заезд */
+    .race-block {
+        height:calc(100vh - 120px);
+        display: flex;
+    }
+    .race-desc, .race-couples {
+        width:50%;
+        height:100%;
+    }
+    .race-desc {
+        position: relative;
+    }
+    .race-couples tbody {
+        height:calc(100vh - 165px);
+    }
+    .race-desc img {
+        height:500px;
+        border:0;
+        position:relative;
+        z-index: 3;
+    }
+    .city-name {
+        height:200px;
+        margin-top:-200px;
+        background-color: var(--color-black-glace);
+        padding:40px;
+        width:100%;
+        position: absolute;
+        z-index: 4;  
+    }
+    .city-name h2 {
+        display: block;
+        color:var(--color-main);
+        font-size:26px;
+    }
+    .race-fields tbody {
+        height:calc(100vh - 628px);
+    }
+    .race-fields:has(.race-button) tbody {
+        height:calc(100vh - 672px);
+    }
+    .race-fields:has(.race-button) .table-title {
+        background-color:var(--color-border);
+        padding: 0 0 43px 0;
+    }
+    .race-fields .race-button {
+        position: absolute;
+        color:var(--color-text);
+        background-color: var(--color-main);
+        border:2px solid var(--color-link);
+        text-decoration: none;
+        padding:10px;
+        margin:0 3px 0 1px;
+        text-align: center;
+        width:calc(100% - 4px);
+        transition: all 0.3s ease;
+        font-size:16px;
+    }
+    .race-fields button.race-button {
+        padding:9px;
+    }
+    .race-fields .race-button:hover {
+        color:var(--color-main);
+        background-color:var(--color-link);
+    }
+    @media screen and (max-width:1600px) {
+        .race-block {
+            display: block;
+            height:inherit;
+        }
+        .race-fields tbody {
+            height:inherit;
+        }
+        .race-desc, .race-couples {
+            width:100%;
+            height:inherit;
+        }
+        .race-couples tbody {
+            height:555px;
+        }
+    }
+
+
+/* Эдит заезд */
+    .city-name * {
+        color:var(--color-main);
+    }
+    .city-name:has(p) {
+        padding-top:25px;
+    }
+    .city-name p {
+        display: block;
+        margin-bottom:10px;
+    }
+    .race-block .race-desc .city-name .r-head-input {
+        width:100%;
+        display: inline-block;
+        color:var(--color-main);
+        margin-bottom:20px;
+    }
+    .add-couple {
+        width:100%;
+        font-size:24px;
+        padding:10px;
+        height:47px;
+    }
+    .race-couples:has(.add-couple) tbody {
+        height:calc(100vh - 212px);
+    }
+    #list-couples td:not(:last-child) {
+        padding:4px;
+        vertical-align: middle;
+    }
+    td:has(.fa-xmark) {
+        text-align: center;
+    }
+    #list-couples td input {
+        height:36px;
+    }
+    td .fa-xmark {
+        padding:10px;
+        border:2px solid var(--color-text);
+    }
+    td .fa-xmark:hover {
+        border-color: var(--color-alert);
+        color:var(--color-alert);
+    }

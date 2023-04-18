@@ -1,0 +1,99 @@
+{% extends 'hippodrome/base.html' %}
+
+{% block content_title %}
+    
+    <h2>{{ title_race }}</h2>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="race-block">
+    <div class="race-desc">
+        <img src="{{ city.photo }}" alt="">
+        <div class="city-name">
+            <h2>{{ city.name }}, {{ hippodrome }}</h2>
+        </div>
+        <div class="table-wrap no-head no-color race-fields">
+            <div class="table-title">
+                {% if role_admin %}
+                <a href="edit/{{ pk }}">Редактировать запись</a>
+                {% endif %}
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Текущий статус</td>
+                        <td>{{ status }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Дата:</td>
+                        <td>{{ date }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Время начала:</td>
+                        <td>{{ time_begin }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Время окончания:</td>
+                        <td>{{ time_end }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Дистанция:</td>
+                        <td>{{ distantion }} км.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Призовой фонд:</td>
+                        <td>{{ summa }} рублей</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Количество участников:</td>
+                        <td>{{ count_couples }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Организатор</td>
+                        <td>{{ org }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+    <div class="race-couples">
+        <div class="table-wrap ">
+            <div class="table-title">
+                <h2>Участники заезда</h2>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Лошадь</td>
+                        <td>Наездник</td>
+                        <td>Результат</td>
+                        <td>Время участника</td>
+                        <td></td>
+                    </tr>
+                    {% for c in couples %}
+                    <tr>
+                        <td><a href="{{ c.horse.link }}">{{ c.horse.name }}</a></td>
+                        <td><a href="{{ c.jokey.link }}">{{ c.jokey.fio }}</a></td>
+                        <td>{{ c.result }}</td>
+                        <td>{{ c.time }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}        
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'hippodrome/account.html' %}
+
+{% block additional %}
+
+    <div class="sobs-block">
+        <div class="horses-block">
+            <div class="table-wrap no-head no-color desc-horse-table">
+                <div class="table-title">
+                    <h2>Информация по скакуну</h2>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Кличка:</td>
+                            <td><a id="h-name" href=""></a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Масть:</td>
+                            <td id="h-mast"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Возраст:</td>
+                            <td id="h-age"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+            <div class="desc-horse">
+                <img id="h-photo" src="" alt="Фото скакуна">                                    
+            </div>
+        </div>
+        <div class="sobs-left">
+            <div class="table-wrap no-head list-horses">
+                <div class="table-title">
+                    <h2>Список лошадей</h2>
+                </div>
+                <table>
+                    <tbody>
+                        {% for h in horses %}
+                        <tr>
+                            <td id="h{{ h.pk }}" class="horse-td">{{ h.name }}</td>                                     
+                            <td class="no-display">{{ h.photo }}</td>
+                            <td class="no-display">{{ h.mast }}</td>
+                            <td class="no-display">{{ h.age }} лет</td>
+                            <td class="no-display">{{ h.link }}</td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>
+            <div class="table-wrap races-block">
+                <div class="table-title">
+                    <h2>Результаты заездов</h2>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="no-display"></td>
+                            <td>Дата</td>
+                            <td>Событие</td>
+                            <td>Ипподром</td>
+                            <td>Скакун</td>
+                            <td>Наездник</td>
+                            <td>Результат</td>
+                            <td></td>
+                        </tr>
+                        {% for r in races %}
+                        <tr class="horse-r">
+                            <td class="no-display">{{ r.horse.pk }}</td>
+                            <td>{{ r.date }}</td>
+                            <td>{{ r.name }}</td>
+                            <td>{{ r.hipp.name }}</td>
+                            <td>{{ r.horse.name }}</td>
+                            <td>{{ r.jokey.name }}</td>
+                            <td>{{ r.para.result }}</td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>  
+        </div>                                                   
+    </div>
+
+{% endblock %}
