@@ -18,7 +18,7 @@
         <div class="table-wrap no-head no-color race-fields">
             <div class="table-title">
                 {% if role_admin %}
-                <a href="edit/{{ pk }}">Редактировать запись</a>
+                <a href="edit/?page={{ pk }}">Редактировать запись</a>
                 {% endif %}
             </div>
             <table>
@@ -83,8 +83,8 @@
                     </tr>
                     {% for c in couples %}
                     <tr>
-                        <td><a href="{{ c.horse.link }}">{{ c.horse.name }}</a></td>
-                        <td><a href="{{ c.jokey.link }}">{{ c.jokey.fio }}</a></td>
+                        <td><a href="{% url c.horse.link %}">{{ c.horse.name }}</a></td>
+                        <td><a href="{% url c.horse.link %}">{{ c.jokey.fio }}</a></td>
                         <td>{{ c.result }}</td>
                         <td>{{ c.time }}</td>
                         <td></td>

@@ -22,7 +22,7 @@
             </div>
         </div>
         {% if is_login == 1 %}
-        <div class="h-mini"><a href="{% url 'login' %}" id="show-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
+        <div class="h-mini"><a href="{% url 'login' %}" id="in-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
         {% else %}
         <div class="h-mini"><button id="show-lk" class="h-button"><i class="fa-solid fa-right-to-bracket"></i></button></div>
         {% endif %}
@@ -31,9 +31,9 @@
         <ul id="nav" class="site-main-menu site-auto-menu ">
             {% for punkt in side_menu %}
                 {% if punkt.pk == punkt_selected %}
-                <li  class="active"><a href="{{ punkt.get_absolute_url }}" class="pt-trigger">{{punkt.name}}</a></li>
+                <li  class="active"><a href="{% url punkt.get_absolute_url %}" class="pt-trigger">{{punkt.name}}</a></li>
                 {% else %}
-                <li><a href="{{ punkt.get_absolute_url }}" class="pt-trigger">{{punkt.name}}</a></li>
+                <li><a href="{% url punkt.get_absolute_url %}" class="pt-trigger">{{punkt.name}}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>

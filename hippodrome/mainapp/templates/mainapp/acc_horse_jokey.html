@@ -20,7 +20,7 @@
                         {% if f.type == 'text' %}
                             <td>{{ f.value }}</td>
                         {% else %}
-                            <td><a href="{{ f.link }}">{{ f.value }}</a></td>
+                            <td><a href="{% url f.link %}">{{ f.value }}</a></td>
                         {% endif %}
                     {% endfor %}
                     <td></td>
