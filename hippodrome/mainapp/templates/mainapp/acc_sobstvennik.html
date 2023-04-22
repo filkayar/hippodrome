@@ -42,10 +42,10 @@
                         {% for h in horses %}
                         <tr>
                             <td id="h{{ h.pk }}" class="horse-td">{{ h.name }}</td>                                     
-                            <td class="no-display">{{ h.photo }}</td>
+                            <td class="no-display">{{ h.photo.url }}</td>
                             <td class="no-display">{{ h.mast }}</td>
                             <td class="no-display">{{ h.age }} лет</td>
-                            <td class="no-display">{{ h.link }}</td>
+                            <td class="no-display">{{ h.get_absolute_url }}</td>
                             <td></td>
                         </tr>
                         {% endfor %}
@@ -68,15 +68,15 @@
                             <td>Результат</td>
                             <td></td>
                         </tr>
-                        {% for r in races %}
+                        {% for c in couples %}
                         <tr class="horse-r">
-                            <td class="no-display">{{ r.horse.pk }}</td>
-                            <td>{{ r.date }}</td>
-                            <td>{{ r.name }}</td>
-                            <td>{{ r.hipp.name }}</td>
-                            <td>{{ r.horse.name }}</td>
-                            <td>{{ r.jokey.name }}</td>
-                            <td>{{ r.para.result }}</td>
+                            <td class="no-display">{{ c.horse.id }}</td>
+                            <td>{{ c.race.date }}</td>
+                            <td><a href="{{ c.race.get_absolute_url }}">{{ c.race }}</a></td>
+                            <td>{{ c.race.hippodrome.name }}</td>
+                            <td>{{ c.horse }}</td>
+                            <td><a href="{{ c.jockey.get_absolute_url }}">{{ c.jockey }}</a></td>
+                            <td>{{ c.result }}</td>
                             <td></td>
                         </tr>
                         {% endfor %}

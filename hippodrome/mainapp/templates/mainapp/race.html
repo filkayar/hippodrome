@@ -84,7 +84,7 @@
                     {% for c in couples %}
                     <tr>
                         <td><a href="{{ c.horse.get_absolute_url }}">{{ c.horse }}</a></td>
-                        <td><a href="{{ c.horse.get_absolute_url }}">{{ c.jockey }}</a></td>
+                        <td><a href="{{ c.jockey.get_absolute_url }}">{{ c.jockey }}</a></td>
                         <td>{{ c.result }}</td>
                         <td>{{ c.time }}</td>
                         <td></td>

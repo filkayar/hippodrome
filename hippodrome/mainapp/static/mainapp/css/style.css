@@ -641,12 +641,14 @@
         width:30vw;
         background-color: var(--color-main);
     }
-    .account-photo-wrap button {
+    .account-photo-wrap .input-submit-wrap, .account-photo-wrap button {
         margin-top:40px;
     }
-    .account-photo-wrap button {
+    .account-photo-wrap .input-submit-wrap a, .account-photo-wrap button {
+        display:block;
         width:100%;
         font-size:20px;
+        text-decoration:none;
     }
     @media screen and (max-width:1200px) {
         .account-common {
