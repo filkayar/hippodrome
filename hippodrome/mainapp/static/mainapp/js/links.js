@@ -19,16 +19,7 @@ function addListenerLinks() {
             vib.classList.add("active");
         });
     }
-    
-    let rem_couple = document.getElementById("list-couples");
-    rem_couple.addEventListener('click', (e)=>{
-        if (e.target.className === "fa-solid fa-xmark") {
-            e.target.parentElement.parentElement.remove();
-            refreshCouples();
-        }
-    });
 }
-
 addListenerLinks();
 
 
@@ -41,10 +32,10 @@ for (let v = 0; v < vs.length; v++) {
     vs[v].addEventListener('click', (e)=>{
         if (e.target.tagName === "TD") {
             const key = e.target.id.split("-")[2];
-            const att_url = e.target.getAttribute("city_url");
+            const att_url = e.target.getAttribute("url");
             const value = e.target.innerHTML;
 
-            if (att_url !== null) {
+            if (att_url !== '') {
                 photo.src = att_url;
             }
 

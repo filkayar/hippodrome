@@ -6,23 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
-    <link type="text/css" href="{% static 'mainapp/css/styles.css' %}" rel="stylesheet" />
-    <link rel="shortcut icon" href="{% static 'mainapp/images/main.ico' %}" type="image/x-icon"/>
+    <link type="text/css" href="{% static 'mainapp/css/style.css' %}" rel="stylesheet" />
+    <link rel="shortcut icon" href="{% static 'mainapp/images/favicon.jpg' %}" type="image/x-icon"/>
 </head>
 <body>
     <div id="header">
         <div class="h-mini"><button id="show-sidebar" class="h-button"><i class="fa-solid fa-bars"></i></button></div>
         <div id="h-center">
             <div id="btn-main-wrap">
-                <a href="{% url 'home' %}" id="btn-main">
+                <a href="{% url 'races_list' %}" id="btn-main">
                     <i class="fa-solid fa-horse-head head-horse"></i>
                     <h2 class="main-title">hippodrome</h2>
                     <i class="fa-solid fa-horse-head fa-flip-horizontal head-horse"></i>
                 </a>
             </div>
         </div>
-        {% if is_login == 1 %}
+        {% if is_login %}
         <div class="h-mini"><a href="{% url 'login' %}" id="in-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
+        <div class="h-mini"><a href="{% url 'logout' %}" id="out-lk" class="h-button"><i class="fa-solid fa-right-from-bracket"></i></i></a></div>
         {% else %}
         <div class="h-mini"><button id="show-lk" class="h-button"><i class="fa-solid fa-right-to-bracket"></i></button></div>
         {% endif %}
@@ -31,14 +32,15 @@
         <ul id="nav" class="site-main-menu site-auto-menu ">
             {% for punkt in side_menu %}
                 {% if punkt.pk == punkt_selected %}
-                <li  class="active"><a href="{% url punkt.get_absolute_url %}" class="pt-trigger">{{punkt.name}}</a></li>
+                <li  class="active"><a href="{% url punkt.url_name %}" class="pt-trigger">{{punkt.title}}</a></li>
                 {% else %}
-                <li><a href="{% url punkt.get_absolute_url %}" class="pt-trigger">{{punkt.name}}</a></li>
+                <li><a href="{% url punkt.url_name %}" class="pt-trigger">{{punkt.title}}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
     </div>
-    <div id="auth">
+    {% if not is_login %}
+    <div id="auth" class="modal-block">
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
             <h2>Авторизация</h2>
@@ -57,6 +59,7 @@
             <button type="submit" id="auth-subm" class="input-submit">Войти</button>
         </form>
     </div>
+    {% endif %}
     <div id="page-overlay"></div>
     {% block viborky %}
     {% endblock %}
@@ -72,9 +75,13 @@
     </div>
 </body>
 <script src="https://kit.fontawesome.com/60a957becd.js" crossorigin="anonymous"></script>
+{% if not is_login %}
+<script src="{% static 'mainapp/js/showlk.js' %}"></script>
+{% endif %}
 <script src="{% static 'mainapp/js/script.js' %}"></script>
 <script src="{% static 'mainapp/js/img.js' %}"></script>
 <script src="{% static 'mainapp/js/sobs.js' %}"></script>
 <script src="{% static 'mainapp/js/links.js' %}"></script>
-<script src="{% static 'mainapp/js/race.js' %}"></script>
+{% block scr_links %}
+{% endblock %}
 </html>

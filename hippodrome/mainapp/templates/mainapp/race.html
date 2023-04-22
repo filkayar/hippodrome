@@ -1,4 +1,4 @@
-{% extends 'hippodrome/base.html' %}
+{% extends 'mainapp/base.html' %}
 
 {% block content_title %}
     
@@ -11,14 +11,14 @@
 
 <div class="race-block">
     <div class="race-desc">
-        <img src="{{ city.photo }}" alt="">
+        <img src="{{ photo }}" alt="">
         <div class="city-name">
-            <h2>{{ city.name }}, {{ hippodrome }}</h2>
+            <h2>{{ city }}, {{ hippodrome }}</h2>
         </div>
         <div class="table-wrap no-head no-color race-fields">
             <div class="table-title">
-                {% if role_admin %}
-                <a href="edit/?page={{ pk }}">Редактировать запись</a>
+                {% if is_admin %}
+                <a href="{{ edit_url }}" class="race-button">Редактировать запись</a>
                 {% endif %}
             </div>
             <table>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td>Дистанция:</td>
-                        <td>{{ distantion }} км.</td>
+                        <td>{{ distance }} км.</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -83,8 +83,8 @@
                     </tr>
                     {% for c in couples %}
                     <tr>
-                        <td><a href="{% url c.horse.link %}">{{ c.horse.name }}</a></td>
-                        <td><a href="{% url c.horse.link %}">{{ c.jokey.fio }}</a></td>
+                        <td><a href="{{ c.horse.get_absolute_url }}">{{ c.horse }}</a></td>
+                        <td><a href="{{ c.horse.get_absolute_url }}">{{ c.jockey }}</a></td>
                         <td>{{ c.result }}</td>
                         <td>{{ c.time }}</td>
                         <td></td>

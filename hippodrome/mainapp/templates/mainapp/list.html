@@ -1,10 +1,10 @@
-{% extends 'hippodrome/base.html' %}
+{% extends 'mainapp/base.html' %}
 
 {% block content_title %}
 
     <h2>{{ title_table }}</h2>
-    {% if role_admin %}
-        <a href="/new">Добавить запись</a>
+    {% if is_admin %}
+        <a href="{% url add_record %}">Добавить запись</a>
     {% endif %}
 
 {% endblock %}
@@ -31,7 +31,7 @@
                         {% if f.type == 'text' %}
                             <td>{{ f.value }}</td>
                         {% else %}
-                            <td><a href="{% url f.link %}">{{ f.value }}</a></td>
+                            <td><a href="{{ f.link }}">{{ f.value }}</a></td>
                         {% endif %}
                     {% endfor %}
                     <td></td>

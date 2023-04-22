@@ -1,6 +1,16 @@
 let addCouple = document.querySelector(".add-couple");
 let tbody = document.getElementById("list-couples");
 
+function addListenerRemove() {
+    let rem_couple = document.getElementById("list-couples");
+    rem_couple.addEventListener('click', (e)=>{
+        if (e.target.className === "fa-solid fa-xmark") {
+            e.target.parentElement.parentElement.remove();
+            refreshCouples();
+        }
+    });
+}
+
 addCouple.addEventListener('click', (e)=>{
     let d, tag_i, tag_input, tag_d, tag_icon;
     let c = tbody.querySelectorAll("tr").length - 1;
@@ -81,4 +91,5 @@ addCouple.addEventListener('click', (e)=>{
 
     tbody.append(tag_tr);
     addListenerLinks();
+    addListenerRemove();
 });

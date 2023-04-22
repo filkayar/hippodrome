@@ -1,16 +1,15 @@
 visitors_menu = [
-    {'title': "Список лошадей", 'url_name': 'list_horses'},
-    {'title': "Список жокеев", 'url_name': 'list_jockey'},
+    {'pk': 0, 'title': "Заглавная", 'url_name': 'races_list'},
+    {'pk': 1, 'title': "Список лошадей", 'url_name': 'horses_list'},
+    {'pk': 2, 'title': "Список жокеев", 'url_name': 'jockeys_list'},
+    {'pk': 3, 'title': "Список владельцев", 'url_name': 'owners_list'},
 ]
 
 admin_menu = [
-    {'title': "Список лошадей", 'url_name': 'list_horses'},
-    {'title': "Список жокеев", 'url_name': 'list_jockey'},
-    {'title': "Список пользователей", 'url_name': 'list_users'},
-    {'title': "Список печати", 'url_name': 'list_print'},
+    {'pk': 0, 'title': "Заглавная", 'url_name': 'races_list'},
+    {'pk': 1, 'title': "Список лошадей", 'url_name': 'horses_list'},
+    {'pk': 2, 'title': "Список жокеев", 'url_name': 'jockeys_list'},
+    {'pk': 3, 'title': "Список владельцев", 'url_name': 'owners_list'},
+    {'pk': 4, 'title': "Список печати", 'url_name': 'reports_list'},
 ]
 
-
-class DataMixin:
-    def get_user_context(self, **kwargs):
-        context = kwargs

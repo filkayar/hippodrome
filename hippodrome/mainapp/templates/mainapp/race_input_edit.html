@@ -1,5 +1,5 @@
-{% extends 'hippodrome/base.html' %}
-
+{% extends 'mainapp/base.html' %}
+{% load static %}
 
 {% block content_title %}
     
@@ -48,9 +48,9 @@
             </div>
             <table>
                 <tbody>
-                    {% for j in dict_jokey %}
+                    {% for j in dict_jockeys %}
                     <tr>
-                        <td id="id-1-{{ j.pk }}" class="el-v">{{ j.fio }}</td><td></td>
+                        <td id="id-1-{{ j.pk }}" class="el-v">{{ j.name }}</td><td></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -94,7 +94,7 @@
                 <tbody>
                     {% for i in dict_hippodrome %}
                     <tr>
-                        <td id="id-3-{{ i.pk }}" city_url="{{ i.photo }}" class="el-v">{{ i.name }}</td><td></td>
+                        <td id="id-3-{{ i.pk }}" url="{{ i.photo }}" class="el-v">{{ i.name }}</td><td></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -108,21 +108,21 @@
 
 {% block content %}
 
-    <form action="{{ action }}" type="POST" class="race-block">
+    <form type="POST" class="race-block">
         <div class="race-desc">
-            <img id="race-photo" src="{{ race.city.photo }}" alt="">
+            <img id="race-photo" src="{{ photo }}" alt="">
             <div class="city-name">
                 <p>Город</p>
                 <div class="link r-head-input">
                     <i class="fa-solid fa-link"></i>
-                    <input id="city.name" name="city.name" type="number" value="{{ city.pk }}">                                        
-                    <div class="link-input" for="table_cities">{{ city.name }}</div>
+                    <input id="city.name" name="city.name" type="number" value="{{ city_pk }}">
+                    <div class="link-input" for="table_cities">{{ city }}</div>
                 </div>
                 <p>Ипподром</p>
                 <div class="link r-head-input">
                     <i class="fa-solid fa-link"></i>
-                    <input id="hippodrome.name" name="hippodrome.name" type="number" value="{{ hippodrome.pk }}">                                        
-                    <div class="link-input" for="table_hippodrome">{{ hippodrome.name }}</div>
+                    <input id="hippodrome.name" name="hippodrome.name" type="number" value="{{ hippodrome_pk }}">
+                    <div class="link-input" for="table_hippodrome">{{ hippodrome }}</div>
                 </div>
             </div>
             <div class="table-wrap no-head no-color race-fields">
@@ -133,12 +133,7 @@
                     <tbody>
                         <tr>
                             <td>Заголовок</td>
-                            <td><input name="title" type="text" class="input-text" value="{{ title }}"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Текущий статус</td>
-                            <td><input name="status" type="text" class="input-text" value="{{ status }}"></td>
+                            <td><input name="title" type="text" class="input-text" value="{{ title_race }}"></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -158,7 +153,7 @@
                         </tr>
                         <tr>
                             <td>Дистанция:</td>
-                            <td><input name="distantion" type="number" class="input-text" value="{{ distantion }}"></td>
+                            <td><input name="distantion" type="number" class="input-text" value="{{ distance }}"></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -191,27 +186,27 @@
                             <td></td>
                             <td></td>
                         </tr>
-                        {% for c in range(len(couples)) %}
+                        {% for c in couples %}
                         <tr>
                             <td>
                                 <div class="link">
                                     <i class="fa-solid fa-link"></i>
-                                    <input id="couple-{{ c }}-0" name="couple-{{ c }}-0" type="number" value="{{ couples[c].horse.pk }}">                                        
-                                    <div class="link-input" for="table_horses">{{ couples[c].horse.name }}</div>
+                                    <input id="couple-{{ c.pk }}-0" name="couple-{{ c.pk }}-0" type="number" value="{{ c.rec.horse.id }}">
+                                    <div class="link-input" for="table_horses">{{ c.rec.horse }}</div>
                                 </div>
                             </td>
                             <td>
                                 <div class="link">
                                     <i class="fa-solid fa-link"></i>
-                                    <input id="couple-{{ c }}-1" name="couple-{{ c }}-1" type="number" value="{{ couples[c].jokey.pk }}">                                        
-                                    <div class="link-input" for="table_jokey">{{ couples[c].jokey.fio }}</div>
+                                    <input id="couple-{{ c.pk }}-1" name="couple-{{ c.pk }}-1" type="number" value="{{ c.rec.jockey.id }}">
+                                    <div class="link-input" for="table_jokey">{{ c.rec.jockey }}</div>
                                 </div>
                             </td>
                             <td>
-                                <input name="couple-{{ c }}-2" type="number" class="input-text" value="{{ couples[c].result }}">
+                                <input name="couple-{{ c.pk }}-2" type="number" class="input-text" value="{{ c.rec.result }}">
                             </td>
                             <td>
-                                <input name="couple-{{ c }}-3" type="time" class="input-text" value="{{ couples[c].time }}">
+                                <input name="couple-{{ c.pk }}-3" type="time" class="input-text" value="{{ c.rec.time }}">
                             </td>
                             <td>
                                 <i class="fa-solid fa-xmark"></i>
@@ -225,4 +220,8 @@
         </div>
     </form>
 
+{% endblock %}
+
+{% block scr_links %}
+<script src="{% static 'mainapp/js/race.js' %}"></script>
 {% endblock %}
