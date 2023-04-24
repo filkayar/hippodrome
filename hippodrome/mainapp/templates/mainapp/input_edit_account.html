@@ -3,7 +3,7 @@
 
 {% block content_title %}
     
-    <h2>Новая запись - {{ table }}</h2>
+    <h2>Новая запись - {{ title_head }}</h2>
 
 {% endblock %}
 
@@ -38,7 +38,7 @@
 {% block content %}
 
     <div class="account-wrap">
-        <form action="{{ action }}" method="get" class="account-common">
+        <form method="post" class="account-common">
             <div class="account-photo-wrap">
                 <div class="input-file-wrap">
                     <label for="img_up">Загрузите сюда фотографию</label>
@@ -55,18 +55,18 @@
                         <h2>Справочная информация</h2>
                     </div>
                     <table>
-                        <tbody height="px">
+                        <tbody>
                             {% for f in fields %}
                             <tr>
                                 <td>{{ f.desc }}:</td>
-                                {% if f.type == 'text' %}
-                                    <td><input name="{{ f.pk }}" type="{{ f.type }}" class="input-text" value="{{ f.value }}"></td>
+                                {% if f.no_link %}
+                                    <td><input name="{{ f.name }}" type="{{ f.type }}" class="input-text" value="{{ f.value }}"></td>
                                 {% else %}
                                     <td>
                                         <div class="link">
                                             <i class="fa-solid fa-link"></i>
-                                            <input id="{{ f.link.pk }}" name="{{ f.link.pk }}" type="number" value="{{ f.link.pk }}">                                        
-                                            <div class="link-input" for="{{ f.viborka }}">{{ f.link.value }}</div>
+                                            <input id="{{ f.name }}" name="{{ f.name }}" type="number" value="{{ f.value }}">
+                                            <div class="link-input" for="{{ f.viborka }}">{{ f.text }}</div>
                                         </div>                                    
                                     </td>
                                 {% endif %}

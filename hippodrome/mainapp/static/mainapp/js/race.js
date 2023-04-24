@@ -10,6 +10,7 @@ function addListenerRemove() {
         }
     });
 }
+addListenerRemove();
 
 addCouple.addEventListener('click', (e)=>{
     let d, tag_i, tag_input, tag_d, tag_icon;

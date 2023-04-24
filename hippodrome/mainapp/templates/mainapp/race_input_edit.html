@@ -14,8 +14,9 @@
 
 {% block viborky %}
 
-    <div id="table_horses" class="modal-block viborka">
-        <div class="v-head">Список лошадей</div>
+    {% for v in list_v %}
+    <div id="{{ v.name }}" class="modal-block viborka">
+        <div class="v-head">{{ v.title }}</div>
         <div class="v-search">
             <i class="fa fa-search"></i>
             <input type="text" class="input-text">
@@ -26,81 +27,16 @@
             </div>
             <table>
                 <tbody>
-                    {% for h in dict_horses %}
+                    {% for r in v.records %}
                     <tr>
-                        <td id="id-0-{{ h.pk }}" class="el-v">{{ h.name }}</td><td></td>
+                        <td id="id-{{ v.id }}-{{ r.pk }}" url="{{ r.photo }}" class="el-v">{{ r.value }}</td><td></td>
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table> 
+            </table>
         </div>
     </div>
-
-    <div id="table_jokey" class="modal-block viborka">
-        <div class="v-head">Список жокеев</div>
-        <div class="v-search">
-            <i class="fa fa-search"></i>
-            <input type="text" class="input-text">
-        </div>
-        <div class="table-wrap no-head">
-            <div class="table-title">
-                <h2></h2>
-            </div>
-            <table>
-                <tbody>
-                    {% for j in dict_jockeys %}
-                    <tr>
-                        <td id="id-1-{{ j.pk }}" class="el-v">{{ j.name }}</td><td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>
-    </div>
-
-    <div id="table_cities" class="modal-block viborka">
-        <div class="v-head">Список городов</div>
-        <div class="v-search">
-            <i class="fa fa-search"></i>
-            <input type="text" class="input-text">
-        </div>
-        <div class="table-wrap no-head">
-            <div class="table-title">
-                <h2></h2>
-            </div>
-            <table>
-                <tbody>
-                    {% for c in dict_cities %}
-                    <tr>
-                        <td id="id-2-{{ c.pk }}" url="{{ c.photo }}" class="el-v">{{ c.name }}</td><td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>
-    </div>
-
-    <div id="table_hippodrome" class="modal-block viborka">
-        <div class="v-head">Список ипподромов</div>
-        <div class="v-search">
-            <i class="fa fa-search"></i>
-            <input type="text" class="input-text">
-        </div>
-        <div class="table-wrap no-head">
-            <div class="table-title">
-                <h2></h2>
-            </div>
-            <table>
-                <tbody>
-                    {% for i in dict_hippodrome %}
-                    <tr>
-                        <td id="id-3-{{ i.pk }}" url="{{ i.photo }}" class="el-v">{{ i.name }}</td><td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>
-    </div>
+    {% endfor %}
 
 {% endblock %}
 

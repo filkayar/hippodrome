@@ -35,7 +35,7 @@ for (let v = 0; v < vs.length; v++) {
             const att_url = e.target.getAttribute("url");
             const value = e.target.innerHTML;
 
-            if (att_url !== '') {
+            if (att_url !== '' && photo !== null) {
                 photo.src = att_url;
             }
 
