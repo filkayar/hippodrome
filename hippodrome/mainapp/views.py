@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, date, time
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import TemplateView
@@ -12,13 +13,10 @@ from .models import *
 from django.contrib.auth.models import *
 from .utils import *
 
-
-def LoginUser(request):
-    pass
-def LogoutUser(request):
-    pass
-
-
+def ErrorAccess(request):
+    return render(request, 'mainapp/error_access.html', context=get_default_context(request))
+def Account(request):
+    return redirect(get_self_account(request))
 def RacesList(request):
     elem_table = []
     for o in Race.objects.all():
@@ -249,12 +247,10 @@ def JockeyId(request, record):
             },
         ])
 
-    context = get_default_context(request)
+    context = get_default_context(request, rec.user.user.id)
     custom_context = {
         'title': 'Наездник: ' + rec.__str__(),
         'account_name': rec.__str__(),
-        'is_self_or_admin': request.user.is_superuser or request.user.id == rec.id,
-        'is_horse': False,
         'record':d,
         'title_table':'Результаты заездов',
         'desc_table':['Дата', 'Событие', 'Скакун', 'Дистанция', 'Результат', 'Время'],
@@ -312,8 +308,7 @@ def HorseId(request, record):
     custom_context = {
         'title': 'Скакун: ' + rec.__str__(),
         'account_name': rec.__str__(),
-        'is_self_or_admin': request.user.is_superuser or request.user.id == rec.id,
-        'is_horse':True,
+        'rule_edit': request.user.is_superuser,
         'record':d,
         'title_table':'Результаты заездов',
         'desc_table':['Дата', 'Событие', 'Жокей', 'Дистанция', 'Результат', 'Время'],
@@ -339,11 +334,9 @@ def OwnerId(request, record):
         for c in Couple.objects.filter(horse=h.id):
             couples.append(c)
 
-    context = get_default_context(request)
+    context = get_default_context(request, rec.user.user)
     custom_context = {
         'title': 'Собственник: ' + rec.__str__(),
-        'is_self_or_admin': request.user.is_superuser or request.user.id == rec.id,
-        'is_horse': False,
         'account_name': rec.__str__(),
         'record':d,
         'photo': rec.user.photo.url,
@@ -356,6 +349,8 @@ def OwnerId(request, record):
 
 def RaceEdit(request, record):
     rec = get_object_or_404(Race, id=record)
+    if not request.user.is_superuser:
+        return redirect('err_access')
 
     couples = []
     for c in Couple.objects.filter(race=rec.id):
@@ -397,7 +392,8 @@ def RaceEdit(request, record):
     return render(request, 'mainapp/race_input_edit.html', context=context|custom_context)
 def HorseEdit(request, record):
     rec = get_object_or_404(Horse, id=record)
-
+    if not request.user.is_superuser:
+        return redirect('err_access')
     fields = [
         {
             'desc':'Кличка',
@@ -448,6 +444,8 @@ def HorseEdit(request, record):
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
 def JockeyEdit(request, record):
     rec = get_object_or_404(Jockey, id=record)
+    if request.user.id != rec.user.user.id:
+        return redirect('err_access')
 
     fields = [
         {
@@ -571,6 +569,8 @@ def JockeyEdit(request, record):
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
 def OwnerEdit(request, record):
     rec = get_object_or_404(Owner, id=record)
+    if request.user.id != rec.user.user.id:
+        return redirect('err_access')
 
     fields = [
         {
@@ -686,6 +686,8 @@ def OwnerEdit(request, record):
 
 
 def RaceNew(request):
+    if not request.user.is_superuser:
+        return redirect('err_access')
     context = get_default_context(request)
     custom_context = {
         'title':'Новый заезд',
@@ -716,6 +718,8 @@ def RaceNew(request):
 
     return render(request, 'mainapp/race_input_edit.html', context=context|custom_context)
 def JockeyNew(request):
+    if not request.user.is_superuser:
+        return redirect('err_access')
     fields = [
         {
             'desc': 'Фамилия',
@@ -837,6 +841,8 @@ def JockeyNew(request):
 
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
 def HorseNew(request):
+    if not request.user.is_superuser:
+        return redirect('err_access')
     fields = [
         {
             'desc': 'Кличка',
@@ -886,6 +892,8 @@ def HorseNew(request):
 
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
 def OwnerNew(request):
+    if not request.user.is_superuser:
+        return redirect('err_access')
     fields = [
         {
             'desc': 'Фамилия',

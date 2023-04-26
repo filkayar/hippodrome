@@ -23,7 +23,7 @@ urlpatterns = [
     path('owners/', OwnersList, name='owners_list'),
 
     path('', RacesList, name='races_list'),
-    path('login/', LoginUser, name='login'),
-    path('logout/', LogoutUser, name='logout'),
+    path('', Account, name='account'),
     path('reports/', RepportsList, name='reports_list'),
+    path('error_access', ErrorAccess, name='err_access')
 ]
