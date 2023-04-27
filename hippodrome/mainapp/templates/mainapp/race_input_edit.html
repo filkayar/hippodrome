@@ -44,20 +44,15 @@
 
 {% block content %}
 
-    <form type="POST" class="race-block">
+    <form method="POST" class="race-block">
+        {% csrf_token %}
         <div class="race-desc">
             <img id="race-photo" src="{{ photo }}" alt="">
             <div class="city-name">
-                <p>Город</p>
-                <div class="link r-head-input">
-                    <i class="fa-solid fa-link"></i>
-                    <input id="city.name" name="city.name" type="number" value="{{ city_pk }}">
-                    <div class="link-input" for="table_cities">{{ city }}</div>
-                </div>
                 <p>Ипподром</p>
                 <div class="link r-head-input">
                     <i class="fa-solid fa-link"></i>
-                    <input id="hippodrome.name" name="hippodrome.name" type="number" value="{{ hippodrome_pk }}">
+                    <input id="hippodrome" name="hippodrome" type="number" value="{{ hippodrome_pk }}">
                     <div class="link-input" for="table_hippodrome">{{ hippodrome }}</div>
                 </div>
             </div>
@@ -89,7 +84,7 @@
                         </tr>
                         <tr>
                             <td>Дистанция:</td>
-                            <td><input name="distantion" type="number" class="input-text" value="{{ distance }}"></td>
+                            <td><input name="distance" type="number" class="input-text" value="{{ distance }}"></td>
                             <td></td>
                         </tr>
                         <tr>

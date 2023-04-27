@@ -84,7 +84,7 @@ class Couple(models.Model):
     jockey = models.ForeignKey('Jockey', on_delete=models.CASCADE, verbose_name='Жокей')
     race = models.ForeignKey('Race', on_delete=models.CASCADE, verbose_name='Заезд')
     result = models.IntegerField(blank=True, verbose_name='Результат')
-    time = models.TimeField(null=True, verbose_name='Итоговое время')
+    time = models.TimeField(blank=True, verbose_name='Итоговое время')
     def __str__(self):
         return self.horse.__str__() + ' - ' + self.jockey.__str__()
     class Meta:

@@ -15,8 +15,12 @@ from .utils import *
 
 def ErrorAccess(request):
     return render(request, 'mainapp/error_access.html', context=get_default_context(request))
+
 def Account(request):
     return redirect(get_self_account(request))
+
+
+
 def RacesList(request):
     elem_table = []
     for o in Race.objects.all():
@@ -58,6 +62,7 @@ def RacesList(request):
         'desc_table':['Дата', 'Время начала', 'Заголовок', 'Город', 'Ипподром'],
     }
     return render(request, 'mainapp/list.html', context=context|custom_context)
+
 def HorsesList(request):
     elem_table = []
     for o in Horse.objects.all():
@@ -94,6 +99,7 @@ def HorsesList(request):
         'desc_table': ['Кличка', 'Масть', 'Возраст', 'Собственник'],
     }
     return render(request, 'mainapp/list.html', context=context|custom_context)
+
 def JockeysList(request):
     elem_table = []
     for o in Jockey.objects.all():
@@ -125,6 +131,7 @@ def JockeysList(request):
         'desc_table': ['ФИО', 'Категория', 'Город'],
     }
     return render(request, 'mainapp/list.html', context=context|custom_context)
+
 def OwnersList(request):
     elem_table = []
     for o in Owner.objects.all():
@@ -151,6 +158,7 @@ def OwnersList(request):
         'desc_table': ['ФИО', 'Город'],
     }
     return render(request, 'mainapp/list.html', context=context|custom_context)
+
 def RepportsList(request):
     context = get_default_context(request)
     custom_context = {
@@ -161,13 +169,14 @@ def RepportsList(request):
     return render(request, 'mainapp/reports.html', context=context|custom_context)
 
 
+
 def RaceId(request, record):
     rec = get_object_or_404(Race, id=record)
 
     now = datetime.now()
-    tb = datetime(year=rec.date.year, month=rec.date.month, day=rec.date.day, hour=rec.time_begin.minute,
+    tb = datetime(year=rec.date.year, month=rec.date.month, day=rec.date.day, hour=rec.time_begin.hour,
                   minute=rec.time_begin.minute, second=0)
-    te = datetime(year=rec.date.year, month=rec.date.month, day=rec.date.day, hour=rec.time_end.minute,
+    te = datetime(year=rec.date.year, month=rec.date.month, day=rec.date.day, hour=rec.time_end.hour,
                   minute=rec.time_end.minute, second=0)
 
 
@@ -200,6 +209,7 @@ def RaceId(request, record):
         'edit_url': reverse('race_edit', args=[rec.id])
     }
     return render(request, 'mainapp/race.html', context=context|custom_context)
+
 def JockeyId(request, record):
     rec = get_object_or_404(Jockey, id=record)
 
@@ -259,6 +269,7 @@ def JockeyId(request, record):
         'edit_url': reverse('jockey_edit', args=[rec.id])
     }
     return render(request, 'mainapp/acc_horse_jokey.html', context=context|custom_context)
+
 def HorseId(request, record):
     rec = get_object_or_404(Horse, id=record)
 
@@ -317,6 +328,7 @@ def HorseId(request, record):
         'edit_url': reverse('horse_edit', args=[rec.id])
     }
     return render(request, 'mainapp/acc_horse_jokey.html', context=context|custom_context)
+
 def OwnerId(request, record):
     rec = get_object_or_404(Owner, id=record)
 
@@ -347,16 +359,21 @@ def OwnerId(request, record):
     return render(request, 'mainapp/acc_sobstvennik.html', context=context|custom_context)
 
 
+
+
 def RaceEdit(request, record):
     rec = get_object_or_404(Race, id=record)
     if not request.user.is_superuser:
         return redirect('err_access')
 
+    if request.method == 'POST':
+        return redirect(reverse('race_id', args=[save_race(request.POST, record)]))
+
     couples = []
     for c in Couple.objects.filter(race=rec.id):
         i = len(couples)
         couples.append({
-            'rec':c,
+            'rec': { 'horse': c.horse, 'jockey':c.jockey, 'result': (c.result or ''), 'time': (c.time or time(0)).strftime("%H:%M") },
             'pk':i
         })
 
@@ -368,8 +385,7 @@ def RaceEdit(request, record):
         'photo':rec.hippodrome.city.photo.url,
 
         'list_v':get_list_v(
-            ['table_cities','Города',City,True],
-            ['table_hippodrome', 'Ипподромы', Hippodrome, False],
+            ['table_hippodrome', 'Ипподромы', Hippodrome, True],
             ['table_horses', 'Лошади', Horse, False],
             ['table_jokey', 'Наездники', Jockey, False],
         ),
@@ -390,6 +406,7 @@ def RaceEdit(request, record):
         'couples': couples
     }
     return render(request, 'mainapp/race_input_edit.html', context=context|custom_context)
+
 def HorseEdit(request, record):
     rec = get_object_or_404(Horse, id=record)
     if not request.user.is_superuser:
@@ -442,6 +459,7 @@ def HorseEdit(request, record):
         'fields':fields,
     }
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+
 def JockeyEdit(request, record):
     rec = get_object_or_404(Jockey, id=record)
     if request.user.id != rec.user.user.id:
@@ -567,6 +585,7 @@ def JockeyEdit(request, record):
         'fields':fields,
     }
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+
 def OwnerEdit(request, record):
     rec = get_object_or_404(Owner, id=record)
     if request.user.id != rec.user.user.id:
@@ -685,17 +704,20 @@ def OwnerEdit(request, record):
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
 
 
+
 def RaceNew(request):
     if not request.user.is_superuser:
         return redirect('err_access')
+
+    if request.method == 'POST':
+        return redirect(reverse('race_id', args=[save_race(request.POST)]))
     context = get_default_context(request)
     custom_context = {
         'title':'Новый заезд',
 
         'new_records': True,
         'list_v': get_list_v(
-            ['table_cities', 'Города', City, True],
-            ['table_hippodrome', 'Ипподромы', Hippodrome, False],
+            ['table_hippodrome', 'Ипподромы', Hippodrome, True],
             ['table_horses', 'Лошади', Horse, False],
             ['table_jokey', 'Наездники', Jockey, False],
         ),
@@ -717,6 +739,7 @@ def RaceNew(request):
     }
 
     return render(request, 'mainapp/race_input_edit.html', context=context|custom_context)
+
 def JockeyNew(request):
     if not request.user.is_superuser:
         return redirect('err_access')
@@ -840,6 +863,7 @@ def JockeyNew(request):
     }
 
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+
 def HorseNew(request):
     if not request.user.is_superuser:
         return redirect('err_access')
@@ -891,6 +915,7 @@ def HorseNew(request):
     }
 
     return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+
 def OwnerNew(request):
     if not request.user.is_superuser:
         return redirect('err_access')
