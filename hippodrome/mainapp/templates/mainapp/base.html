@@ -22,7 +22,11 @@
             </div>
         </div>
         {% if is_login %}
-        <div class="h-mini"><a href="{{ self_account }}" id="in-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
+            {% if is_admin %}
+            <div class="h-mini"><a href="{% url 'admin:index' %}" id="in-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
+            {% else %}
+            <div class="h-mini"><a href="{{ self_account }}" id="in-lk" class="h-button"><i class="fa-solid fa-user"></i></a></div>
+            {% endif %}
         <div class="h-mini"><a href="{% url 'logout' %}" id="out-lk" class="h-button"><i class="fa-solid fa-right-from-bracket"></i></i></a></div>
         {% else %}
         <div class="h-mini"><button id="show-lk" class="h-button"><i class="fa-solid fa-right-to-bracket"></i></button></div>
@@ -39,13 +43,14 @@
             {% endfor %}
         </ul>
     </div>
+    {% block login %}
     {% if not is_login %}
     <div id="auth" class="modal-block">
-        <form action="{% url 'login' %}" method="post">
+        <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
             <h2>Авторизация</h2>
             <div class="form-group">
-                <input type="login" name="username" id="id_username" autocomplete="username" autofocus class="input-text" placeholder="Логин" required="required" data-error="Логин обязателен к заполнению!">
+                <input type="login" name="username" id="id_username_auth" autocomplete="username" autofocus class="input-text" placeholder="Логин" required="required" data-error="Логин обязателен к заполнению!">
                 <div class="input-border"></div>
             </div>
             <div class="form-group">
@@ -61,6 +66,7 @@
     </div>
     {% endif %}
     <div id="page-overlay"></div>
+    {% endblock %}
     {% block viborky %}
     {% endblock %}
     <div id="content">

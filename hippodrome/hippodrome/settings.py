@@ -143,5 +143,5 @@ CACHES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'account'
+LOGIN_REDIRECT_URL = 'races_list'
 LOGOUT_REDIRECT_URL = 'races_list'

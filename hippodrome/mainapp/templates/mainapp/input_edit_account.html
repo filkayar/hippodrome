@@ -38,11 +38,12 @@
 {% block content %}
 
     <div class="account-wrap">
-        <form method="post" class="account-common">
+        <form method="POST" class="account-common" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="account-photo-wrap">
                 <div class="input-file-wrap">
-                    <label for="img_up">Загрузите сюда фотографию</label>
-                    <input type="file" id="img_up" name="img_up" accept=".jpg, .jpeg, .png" />
+                    <label for="photo">Загрузите сюда фотографию</label>
+                    <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png" required/>
                     <div id="photo-wrap">
                         <img src="{{ photo }}" alt="" >
                     </div>

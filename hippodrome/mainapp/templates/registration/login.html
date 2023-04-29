@@ -1,2 +1,26 @@
 {% extends 'mainapp/base.html' %}
 
+{% block login %}
+    {% if not is_login %}
+        <div id="auth" class="modal-block" style="display:block">
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <h2>Авторизация</h2>
+                <div class="form-group">
+                    <input type="login" name="username" id="id_username_auth" autocomplete="username" autofocus class="input-text" placeholder="Логин" required="required" data-error="Логин обязателен к заполнению!">
+                    <div class="input-border"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="id_password" autocomplete="current_password" class="input-text" placeholder="Пароль" required="required" data-error="Пароль обязателен к заполнению!">
+                    <div class="input-border"></div>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="auth-check">
+                    <label for="auth-check">Запомнить меня</label>
+                </div>
+                <button type="submit" id="auth-subm" class="input-submit">Войти</button>
+            </form>
+        </div>
+    {% endif %}
+    <div id="page-overlay" style="display:block"></div>
+{% endblock %}

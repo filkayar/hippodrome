@@ -1,25 +1,8 @@
-from datetime import datetime, timedelta, date, time
-
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.views.generic import TemplateView
-from django.contrib.auth import logout, login
-from django.views.generic import ListView, DetailView, CreateView, FormView
-
-# Create your views here.
-# from .forms import *
-from .models import *
-from django.contrib.auth.models import *
 from .utils import *
 
 def ErrorAccess(request):
     return render(request, 'mainapp/error_access.html', context=get_default_context(request))
-
-def Account(request):
-    return redirect(get_self_account(request))
-
-
 
 def RacesList(request):
     elem_table = []
@@ -56,6 +39,7 @@ def RacesList(request):
     custom_context = {
         'title':'Главная. Список заездов',
         'title_table':'Список заездов',
+        'is_race': request.user.is_superuser,
         'add_record':'race_new',
         'punkt_selected':0,
         'elem_table':elem_table,
@@ -93,7 +77,7 @@ def HorsesList(request):
     custom_context = {
         'title': 'Список лошадей',
         'title_table': 'Список лошадей',
-        'add_record': 'horse_new',
+        'is_race': False,
         'punkt_selected': 1,
         'elem_table': elem_table,
         'desc_table': ['Кличка', 'Масть', 'Возраст', 'Собственник'],
@@ -125,7 +109,7 @@ def JockeysList(request):
     custom_context = {
         'title': 'Список жокеев',
         'title_table': 'Список жокеев',
-        'add_record': 'jockey_new',
+        'is_race': False,
         'punkt_selected': 2,
         'elem_table': elem_table,
         'desc_table': ['ФИО', 'Категория', 'Город'],
@@ -152,7 +136,7 @@ def OwnersList(request):
     custom_context = {
         'title': 'Список владельцев',
         'title_table': 'Список владельцев',
-        'add_record': 'owner_new',
+        'is_race': False,
         'punkt_selected': 3,
         'elem_table': elem_table,
         'desc_table': ['ФИО', 'Город'],
@@ -411,6 +395,10 @@ def HorseEdit(request, record):
     rec = get_object_or_404(Horse, id=record)
     if not request.user.is_superuser:
         return redirect('err_access')
+
+    if request.method == 'POST':
+        return redirect(reverse('horse_id', args=[save_horse(request, record)]))
+
     fields = [
         {
             'desc':'Кличка',
@@ -462,8 +450,11 @@ def HorseEdit(request, record):
 
 def JockeyEdit(request, record):
     rec = get_object_or_404(Jockey, id=record)
-    if request.user.id != rec.user.user.id:
+    if request.user.id != rec.user.user.id and not request.user.is_superuser:
         return redirect('err_access')
+
+    if request.method == 'POST':
+        return redirect(reverse('jockey_id', args=[save_user(request, record, Jockey)]))
 
     fields = [
         {
@@ -588,8 +579,11 @@ def JockeyEdit(request, record):
 
 def OwnerEdit(request, record):
     rec = get_object_or_404(Owner, id=record)
-    if request.user.id != rec.user.user.id:
+    if request.user.id != rec.user.user.id and not request.user.is_superuser:
         return redirect('err_access')
+
+    if request.method == 'POST':
+        return redirect(reverse('owner_id', args=[save_user(request, record, Owner)]))
 
     fields = [
         {
@@ -739,303 +733,3 @@ def RaceNew(request):
     }
 
     return render(request, 'mainapp/race_input_edit.html', context=context|custom_context)
-
-def JockeyNew(request):
-    if not request.user.is_superuser:
-        return redirect('err_access')
-    fields = [
-        {
-            'desc': 'Фамилия',
-            'no_link': True,
-            'name': 'last_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Имя',
-            'no_link': True,
-            'name': 'first_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Отчество',
-            'no_link': True,
-            'name': 'middle_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Категория',
-            'no_link': True,
-            'name': 'category',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Телефон',
-            'no_link': True,
-            'name': 'phone',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Почта',
-            'no_link': True,
-            'name': 'email',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Дата рождения',
-            'no_link': True,
-            'name': 'birth',
-            'type': 'date',
-            'value': date(1900,1,1).strftime("%Y-%m-%d"),
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Серия паспорта',
-            'no_link': True,
-            'name': 's_passport',
-            'type': 'number',
-            'value': 0,
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Номер паспорта',
-            'no_link': True,
-            'name': 'n_passport',
-            'type': 'number',
-            'value': 0,
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Дата выдачи паспорта',
-            'no_link': True,
-            'name': 'd_passport',
-            'type': 'date',
-            'value': date(1900,1,1).strftime("%Y-%m-%d"),
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Кем выдан паспорт',
-            'no_link': True,
-            'name': 'w_passport',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Город',
-            'no_link': False,
-            'name': 'city',
-            'type': '',
-            'value': -1,
-            'viborka': 'cities_table',
-            'text': '',
-        },
-    ]
-
-    context = get_default_context(request)
-    custom_context = {
-        'title': 'Новый жокей',
-        'title_head': 'Новая запись - Жокеи',
-        'list_v': get_list_v(['cities_table', 'Города', City, False], ),
-        'fields': fields,
-    }
-
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
-
-def HorseNew(request):
-    if not request.user.is_superuser:
-        return redirect('err_access')
-    fields = [
-        {
-            'desc': 'Кличка',
-            'no_link': True,
-            'name': 'name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Масть',
-            'no_link': True,
-            'name': 'mast',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Возраст',
-            'no_link': True,
-            'name': 'age',
-            'type': 'number',
-            'value': 0,
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Владелец',
-            'no_link': False,
-            'name': 'owner',
-            'type': '',
-            'value': -1,
-            'viborka': 'owners_table',
-            'text': '',
-        },
-    ]
-
-    context = get_default_context(request)
-    custom_context = {
-        'title': 'Новая лошадь',
-        'title_head': 'Новая запись - Лошади',
-        'list_v': get_list_v(['owners_table','Владельцы',Owner,False],),
-        'fields': fields,
-    }
-
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
-
-def OwnerNew(request):
-    if not request.user.is_superuser:
-        return redirect('err_access')
-    fields = [
-        {
-            'desc': 'Фамилия',
-            'no_link': True,
-            'name': 'last_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Имя',
-            'no_link': True,
-            'name': 'first_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Отчество',
-            'no_link': True,
-            'name': 'middle_name',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Категория',
-            'no_link': True,
-            'name': 'category',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Телефон',
-            'no_link': True,
-            'name': 'phone',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Почта',
-            'no_link': True,
-            'name': 'email',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Дата рождения',
-            'no_link': True,
-            'name': 'birth',
-            'type': 'date',
-            'value': date(1900, 1, 1).strftime("%Y-%m-%d"),
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Серия паспорта',
-            'no_link': True,
-            'name': 's_passport',
-            'type': 'number',
-            'value': 0,
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Номер паспорта',
-            'no_link': True,
-            'name': 'n_passport',
-            'type': 'number',
-            'value': 0,
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Дата выдачи паспорта',
-            'no_link': True,
-            'name': 'd_passport',
-            'type': 'date',
-            'value': date(1900, 1, 1).strftime("%Y-%m-%d"),
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Кем выдан паспорт',
-            'no_link': True,
-            'name': 'w_passport',
-            'type': 'text',
-            'value': '',
-            'viborka': '',
-            'text': '',
-        },
-        {
-            'desc': 'Город',
-            'no_link': False,
-            'name': 'city',
-            'type': '',
-            'value': -1,
-            'viborka': 'cities_table',
-            'text': '',
-        },
-    ]
-
-    context = get_default_context(request)
-    custom_context = {
-        'title': 'Новый владелец',
-        'title_head': 'Новая запись - Владельцы',
-        'list_v': get_list_v(['cities_table','Города',City,False],),
-        'fields': fields,
-    }
-
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)

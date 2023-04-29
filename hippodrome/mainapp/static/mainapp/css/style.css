@@ -495,7 +495,7 @@
     #auth h2 {
         text-align: center;
         font-size: 40px;
-        margin:20px 0;
+        margin:20px;
         color:var(--color-text-h);
     }
     #auth .form-group {
