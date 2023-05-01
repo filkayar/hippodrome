@@ -1,0 +1,28 @@
+<html>
+<body>
+    <h2>Статистика жокея за период</h2>
+    <p>ФИО: {{ fio }}</p>
+    <p>Город: {{ city }}</p>
+    <p>Категория: {{ category }}</p>
+    <br>
+    <p>Статистика за период с {{ dn }} по {{ de }}</p>
+    <table>
+        <tr>
+            <th>Дата</th>
+            <th>Заезд</th>
+            <th>Лошадь</th>
+            <th>Дистанция</th>
+            <th>Результат</th>
+        </tr>
+        {% for r in table %}
+        <tr>
+            <td>{{ r.date }}</td>
+            <td>{{ r.race }}</td>
+            <td>{{ r.horse }}</td>
+            <td>{{ r.distance }} км</td>
+            <td>{{ r.result }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

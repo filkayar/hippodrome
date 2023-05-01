@@ -1,6 +1,5 @@
-from django.urls import path, re_path
+from django.urls import path
 from .views import *
-
 
 urlpatterns = [
     path('races/edit/new', RaceNew, name='race_new'),
@@ -21,5 +20,7 @@ urlpatterns = [
 
     path('', RacesList, name='races_list'),
     path('reports', RepportsList, name='reports_list'),
-    path('error_access', ErrorAccess, name='err_access')
+    path('report/<str:report_name>', render_pdf_view, name='report_print'),
+
+    path('error_access', ErrorAccess, name='err_access'),
 ]

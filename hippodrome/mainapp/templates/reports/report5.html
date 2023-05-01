@@ -1,0 +1,30 @@
+<html>
+<body>
+    <h2>Распечатка заезда</h2>
+    <p>Название: {{ title }}</p>
+    <p>Организатор: {{ org }}</p>
+    <p>Дата: {{ date }}</p>
+    <p>Время начала: {{ time_begin }}</p>
+    <p>Время окончания: {{ time_end }}</p>
+    <p>Дистанция: {{ distance }}</p>
+    <p>Призовой фонд: {{ summa }}</p>
+    <br>
+    <h4>Таблица участников</h4>
+    <table>
+        <tr>
+            <th>Лошадь</th>
+            <th>Жокей</th>
+            <th>Разультат</th>
+            <th>Время</th>
+        </tr>
+        {% for c in table %}
+        <tr>
+            <td>{{ c.horse }}</td>
+            <td>{{ c.jockey }}</td>
+            <td>{{ c.result }}</td>
+            <td>{{ c.time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

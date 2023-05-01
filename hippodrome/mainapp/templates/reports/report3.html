@@ -1,0 +1,29 @@
+<html>
+<body>
+    <h2>Статистика лошади за период</h2>
+    <p>Кличка: {{ name }}</p>
+    <p>Масть: {{ mast }}</p>
+    <p>Владелец: {{ owner }}</p>
+    <p>Возраст: {{ age }} лет</p>
+    <br>
+    <p>Статистика за период с {{ dn }} по {{ de }}</p>
+    <table>
+        <tr>
+            <th>Дата</th>
+            <th>Заезд</th>
+            <th>Жокей</th>
+            <th>Дистанция</th>
+            <th>Результат</th>
+        </tr>
+        {% for r in table %}
+        <tr>
+            <td>{{ r.date }}</td>
+            <td>{{ r.race }}</td>
+            <td>{{ r.jockey }}</td>
+            <td>{{ r.distance }}</td>
+            <td>{{ r.result }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

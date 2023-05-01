@@ -1,0 +1,28 @@
+<html>
+<body>
+    <h2>Рейтинг жокеев за период</h2>
+    <p>За период с {{ dn }} по {{ de }}</p>
+    <table>
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>Категория</th>
+            <th>Число заездов</th>
+            <th>1 мест</th>
+            <th>2 мест</th>
+            <th>3 мест</th>
+        </tr>
+        {% for j in table %}
+        <tr>
+            <td>{{ j.num }}</td>
+            <td>{{ j.fio }}</td>
+            <td>{{ j.category }}</td>
+            <td>{{ j.count_all }}</td>
+            <td>{{ j.one }}</td>
+            <td>{{ j.two }}</td>
+            <td>{{ j.tree }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

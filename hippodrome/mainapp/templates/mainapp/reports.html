@@ -7,75 +7,61 @@
 
 {% endblock %}
 
+{% block viborky %}
+
+    {% for v in list_v %}
+    <div id="{{ v.name }}" class="modal-block viborka">
+        <div class="v-head">{{ v.title }}</div>
+        <div class="v-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="input-text">
+        </div>
+        <div class="table-wrap no-head">
+            <div class="table-title">
+                <h2></h2>
+            </div>
+            <table>
+                <tbody>
+                    {% for r in v.records %}
+                    <tr>
+                        <td id="id-{{ v.id }}-{{ r.pk }}" url="{{ r.photo }}" class="el-v">{{ r.value }}</td><td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+
+
 
 {% block content %}
 
-<form action="/report/0" method="get" class="form-report">
-    <h2>Рейтинг лошадей за период</h2>
+{% for r in reports %}
+<form action="{% url 'report_print' report_name=r.report_name %}" method="POST" class="form-report">
+    {% csrf_token %}
+    <input name="report" type="number" style="display:none" value="{{ r.report }}">
+    <h2>{{ r.title }}</h2>
     <div class="fields-wrap">
-        <p>c</p>
-        <input type="date" name="dn" class="input-text">
-        <p>по</p>
-        <input type="date" name="dn" class="input-text">
+        {% for l in r.links %}
+        <p>{{ l.title }}</p>
+        <div class="link">
+            <i class="fa-solid fa-link"></i>
+            <input id="{{ l.name }}" name="{{ l.name }}" type="number">
+            <div class="link-input" for="{{ l.table }}"></div>
+        </div>
+        {% endfor %}
+        {% if r.has_date_block %}
+            <p>c</p>
+            <input type="date" name="dn" class="input-text">
+            <p>по</p>
+            <input type="date" name="de" class="input-text">
+        {% endif %}
         <button type="submit" class="input-submit">Печать</button>
     </div>
 </form>
-
-<form action="/report/1" method="get" class="form-report">
-    <h2>Рейтинг жокеев за период</h2>
-    <div class="fields-wrap">
-        <p>c</p>
-        <input type="date" name="dn" class="input-text">
-        <p>по</p>
-        <input type="date" name="dn" class="input-text">
-        <button type="submit" class="input-submit">Печать</button>
-    </div>
-</form>
-
-<form action="/report/2" method="get" class="form-report">
-    <h2>Статистика жокея за период</h2>
-    <div class="fields-wrap">
-        <p>ID-жокея</p>
-        <input type="number" name="dn" class="input-text">
-        <p>c</p>
-        <input type="date" name="dn" class="input-text">
-        <p>по</p>
-        <input type="date" name="dn" class="input-text">
-        <button type="submit" class="input-submit">Печать</button>
-    </div>
-</form>
-
-<form action="/report/3" method="get" class="form-report">
-    <h2>Статистика лошади за период</h2>
-    <div class="fields-wrap">
-        <p>ID-лошади</p>
-        <input type="number" name="dn" class="input-text">
-        <p>c</p>
-        <input type="date" name="dn" class="input-text">
-        <p>по</p>
-        <input type="date" name="dn" class="input-text">
-        <button type="submit" class="input-submit">Печать</button>
-    </div>
-</form>
-
-<form action="/report/4" method="get" class="form-report">
-    <h2>Список заездов с результатами за период</h2>
-    <div class="fields-wrap">
-        <p>c</p>
-        <input type="date" name="dn" class="input-text">
-        <p>по</p>
-        <input type="date" name="dn" class="input-text">
-        <button type="submit" class="input-submit">Печать</button>
-    </div>
-</form>
-
-<form action="/report/5" method="get" class="form-report">
-    <h2>Распечатка заезда</h2>
-    <div class="fields-wrap">
-        <p>Номер заезда</p>
-        <input type="number" name="dn" class="input-text">
-        <button type="submit" class="input-submit">Печать</button>
-    </div>
-</form>
+{% endfor %}
 
 {% endblock %}

@@ -1,0 +1,28 @@
+<html>
+<body>
+    <h2>Рейтинг лошадей за период</h2>
+    <p>За период с {{ dn }} по {{ de }}</p>
+    <table>
+        <tr>
+            <th>№</th>
+            <th>Кличка</th>
+            <th>Владелец</th>
+            <th>Число заездов</th>
+            <th>1 мест</th>
+            <th>2 мест</th>
+            <th>3 мест</th>
+        </tr>
+        {% for h in table %}
+        <tr>
+            <td>{{ h.num }}</td>
+            <td>{{ h.name }}</td>
+            <td>{{ h.owner }}</td>
+            <td>{{ h.count_all }}</td>
+            <td>{{ h.one }}</td>
+            <td>{{ h.two }}</td>
+            <td>{{ h.tree }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

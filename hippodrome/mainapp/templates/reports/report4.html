@@ -1,0 +1,29 @@
+<html>
+<body>
+    <h2>Список заездов с результатами за период</h2>
+    <p>За период с {{ dn }} по {{ de }}</p>
+    <table>
+        <tr>
+            <th rowspan="2">Дата</th>
+            <th rowspan="2">Заезд</th>
+            <th rowspan="2">Число участников</th>
+            <th rowspan="2">Призовой фонд</th>
+            <th rowspan="1" colspan="2">Победитель</th>
+        </tr>
+        <tr>
+            <th>Лошадь</th>
+            <th>Жокей</th>
+        </tr>
+        {% for r in table %}
+        <tr>
+            <td>{{ r.date }}</td>
+            <td>{{ r.race }}</td>
+            <td>{{ r.count }}</td>
+            <td>{{ r.summa }}</td>
+            <td>{{ r.horse }}</td>
+            <td>{{ r.jockey }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
