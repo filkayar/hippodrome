@@ -146,7 +146,7 @@ def save_horse(d, record):
 
     if d.FILES:
         if horse.photo:
-            horse.photo.delete()
+            horse.photo.delete(False)
         file = d.FILES['photo']
         fs = FileSystemStorage()
         filename = fs.save('photos/horse/'+datetime.now().year.__str__()+'/'+datetime.now().month.__str__()+'/'+datetime.now().day.__str__()+'/'+file.name, file)
@@ -178,7 +178,7 @@ def save_user(d, record, obj):
 
     if d.FILES:
         if prof.photo:
-            prof.photo.delete()
+            prof.photo.delete(False)
         file = d.FILES['photo']
         fs = FileSystemStorage()
         filename = fs.save('photos/user/'+datetime.now().year.__str__()+'/'+datetime.now().month.__str__()+'/'+datetime.now().day.__str__()+'/'+file.name, file)
