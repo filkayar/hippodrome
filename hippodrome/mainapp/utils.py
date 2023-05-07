@@ -9,28 +9,6 @@ import pdfkit
 
 from .models import Owner, Jockey, Profile, Couple, Race, Hippodrome, Horse, City
 
-visitors_menu = [
-    {'pk': 0, 'title': "Заглавная", 'url_name': 'races_list'},
-    {'pk': 1, 'title': "Список лошадей", 'url_name': 'horses_list'},
-    {'pk': 2, 'title': "Список жокеев", 'url_name': 'jockeys_list'},
-    {'pk': 3, 'title': "Список владельцев", 'url_name': 'owners_list'},
-]
-
-admin_menu = [
-    {'pk': 0, 'title': "Заглавная", 'url_name': 'races_list'},
-    {'pk': 1, 'title': "Список лошадей", 'url_name': 'horses_list'},
-    {'pk': 2, 'title': "Список жокеев", 'url_name': 'jockeys_list'},
-    {'pk': 3, 'title': "Список владельцев", 'url_name': 'owners_list'},
-    {'pk': 4, 'title': "Список печати", 'url_name': 'reports_list'},
-]
-
-def get_side_menu(_request):
-    if _request.user.is_superuser == False:
-        return visitors_menu
-    else:
-        return admin_menu
-
-
 def get_list_v(*kwargs):
     list_v = []
     v_id = 0
@@ -60,7 +38,13 @@ def get_default_context(request, record=-1):
     return {
         'add_record': 'owner_new',
         'self_account':get_self_account(request),
-        'side_menu': get_side_menu(request),
+        'side_menu': [
+            {'pk': 0, 'title': "Заглавная", 'url_name': 'races_list'},
+            {'pk': 1, 'title': "Список лошадей", 'url_name': 'horses_list'},
+            {'pk': 2, 'title': "Список жокеев", 'url_name': 'jockeys_list'},
+            {'pk': 3, 'title': "Список владельцев", 'url_name': 'owners_list'},
+            {'pk': 4, 'title': "Список печати", 'url_name': 'reports_list'},
+        ],
         'rule_edit': request.user.id == record or request.user.is_superuser,
         'punkt_selected': -1,
         'is_login': request.user.is_authenticated,

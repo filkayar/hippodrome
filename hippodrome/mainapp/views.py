@@ -220,8 +220,6 @@ def RepportsList(request):
     return render(request, 'mainapp/reports.html', context=context|custom_context)
 
 def render_pdf_view(request, report_name):
-    if not request.user.is_superuser:
-        return redirect('err_access')
     if request.method == 'POST':
         d = replace_null(request.POST)
 
