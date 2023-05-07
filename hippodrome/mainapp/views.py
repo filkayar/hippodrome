@@ -532,7 +532,7 @@ def HorseEdit(request, record):
         'photo':rec.photo.url,
         'fields':fields,
     }
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+    return render(request, 'mainapp/edit_account.html', context=context|custom_context)
 
 def JockeyEdit(request, record):
     rec = get_object_or_404(Jockey, id=record)
@@ -661,7 +661,7 @@ def JockeyEdit(request, record):
         'list_v': get_list_v(['cities_table','Города',City,False],),
         'fields':fields,
     }
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+    return render(request, 'mainapp/edit_account.html', context=context|custom_context)
 
 def OwnerEdit(request, record):
     rec = get_object_or_404(Owner, id=record)
@@ -781,7 +781,7 @@ def OwnerEdit(request, record):
         'list_v':get_list_v(['cities_table','Города',City,False],),
         'fields':fields,
     }
-    return render(request, 'mainapp/input_edit_account.html', context=context|custom_context)
+    return render(request, 'mainapp/edit_account.html', context=context|custom_context)
 
 
 
