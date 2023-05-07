@@ -219,7 +219,7 @@ def RepportsList(request):
     }
     return render(request, 'mainapp/reports.html', context=context|custom_context)
 
-def render_pdf_view(request, report_name):
+def Render_pdf_view(request, report_name):
     if request.method == 'POST':
         d = replace_null(request.POST)
 
@@ -389,7 +389,7 @@ def HorseId(request, record):
     custom_context = {
         'title': 'Скакун: ' + rec.__str__(),
         'account_name': rec.__str__(),
-        'rule_edit': request.user.is_superuser,
+        'rule_edit': request.user.is_superuser or rec.owner.user.id == request.user.id,
         'record':d,
         'title_table':'Результаты заездов',
         'desc_table':['Дата', 'Событие', 'Жокей', 'Дистанция', 'Результат', 'Время'],
@@ -479,7 +479,7 @@ def RaceEdit(request, record):
 
 def HorseEdit(request, record):
     rec = get_object_or_404(Horse, id=record)
-    if not request.user.is_superuser:
+    if not request.user.is_superuser and not rec.owner.user.id == request.user.id:
         return redirect('err_access')
 
     if request.method == 'POST':

@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('', RacesList, name='races_list'),
     path('reports', RepportsList, name='reports_list'),
-    path('report/<str:report_name>', render_pdf_view, name='report_print'),
+    path('report/<str:report_name>', Render_pdf_view, name='report_print'),
 
     path('error_access', ErrorAccess, name='err_access'),
 ]
