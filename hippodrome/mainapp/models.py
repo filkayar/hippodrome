@@ -1,20 +1,23 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Index
 from django.urls import reverse
 
 
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    city = models.ForeignKey('City', on_delete=models.RESTRICT, verbose_name='Город', blank=True)
-    middle_name = models.CharField(max_length=255, verbose_name='Отчество', blank=True)
-    phone = models.CharField(max_length=20, verbose_name='Телефон', blank=True)
+    city = models.ForeignKey('City', on_delete=models.RESTRICT, verbose_name='Город')
+    middle_name = models.CharField(max_length=255, verbose_name='Отчество', blank=True, null=True)
+    phone = models.CharField(max_length=20, verbose_name='Телефон', blank=True, null=True)
     birth = models.DateField(verbose_name='Дата рождения', blank=False)
     s_passport = models.IntegerField(blank=False, verbose_name='Серия паспорта')
     n_passport = models.IntegerField(blank=False, verbose_name='Номер паспорта')
     d_passport = models.DateField(blank=False, verbose_name='Дата выдачи паспорта')
     w_passport = models.CharField(max_length=500, blank=False, verbose_name='Кем выдан паспорт')
-    photo = models.ImageField(verbose_name='Фото',upload_to='photos/user/%Y/%m/%d/')
+    photo = models.ImageField(verbose_name='Фото',upload_to='photos/user/%Y/%m/%d/', blank=True, null=True)
+
+    Index(fields=['user',])
     def __str__(self):
         return self.user.last_name + ' ' + self.user.first_name + ' ' + self.middle_name
     class Meta:
@@ -24,8 +27,10 @@ class Profile(models.Model):
 
 
 class Jockey(models.Model):
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Пользователь', unique=True)
     category = models.CharField(verbose_name='Категория', max_length=255, blank=False)
+
+    Index(fields=['user',])
     def __str__(self):
         return self.user.__str__()
     def get_absolute_url(self):
@@ -38,7 +43,9 @@ class Jockey(models.Model):
 
 
 class Owner(models.Model):
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Пользователь')
+
+    Index(fields=['user',])
     def __str__(self):
         return self.user.__str__()
     def get_absolute_url(self):
@@ -52,7 +59,7 @@ class Owner(models.Model):
 
 class City(models.Model):
     name = models.CharField(blank=False, max_length=50, verbose_name='Название')
-    photo = models.ImageField(verbose_name='Фото', upload_to='photos/city/%Y/%m/%d/')
+    photo = models.ImageField(verbose_name='Фото', upload_to='photos/city/%Y/%m/%d/', null=True, blank=True)
     def __str__(self):
         return self.name
     class Meta:
@@ -67,7 +74,9 @@ class Horse(models.Model):
     mast = models.CharField(verbose_name='Масть', max_length=50, blank=False)
     age = models.IntegerField(verbose_name='Возраст', blank=False)
     owner = models.ForeignKey('Owner', on_delete=models.RESTRICT)
-    photo = models.ImageField(verbose_name='Фото',upload_to='photos/horse/%Y/%m/%d/', default='')
+    photo = models.ImageField(verbose_name='Фото',upload_to='photos/horse/%Y/%m/%d/', default='', null=True, blank=True)
+
+    Index(fields=['owner',])
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -83,8 +92,10 @@ class Couple(models.Model):
     horse = models.ForeignKey('Horse', on_delete=models.CASCADE, verbose_name='Лошадь')
     jockey = models.ForeignKey('Jockey', on_delete=models.CASCADE, verbose_name='Жокей')
     race = models.ForeignKey('Race', on_delete=models.CASCADE, verbose_name='Заезд')
-    result = models.IntegerField(blank=True, verbose_name='Результат')
-    time = models.TimeField(blank=True, verbose_name='Итоговое время')
+    result = models.IntegerField(blank=True, verbose_name='Результат', null=True)
+    time = models.TimeField(blank=True, verbose_name='Итоговое время', null=True)
+
+    Index(fields=['race', 'jockey', 'horse'])
     def __str__(self):
         return self.horse.__str__() + ' - ' + self.jockey.__str__()
     class Meta:
@@ -96,7 +107,7 @@ class Couple(models.Model):
 
 class Hippodrome(models.Model):
     name = models.CharField(verbose_name='Название', blank=False, max_length=100)
-    city = models.ForeignKey('City', on_delete=models.RESTRICT, verbose_name='Город', blank=True)
+    city = models.ForeignKey('City', on_delete=models.RESTRICT, verbose_name='Город')
     address = models.CharField(blank=False, verbose_name='Адрес', max_length=500)
     def __str__(self):
         return self.name
